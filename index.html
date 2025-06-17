@@ -252,6 +252,29 @@
             width: 100px;
         }
 
+        /* Prescription table specific voice buttons */
+        .prescription-table .voice-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .prescription-table .voice-btn {
+            width: 20px;
+            height: 20px;
+            right: 1px;
+            padding: 0;
+        }
+
+        .prescription-table .mic-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+        .prescription-table input {
+            padding-right: 25px;
+        }
+
         /* Referral Section */
         .referral-section {
             border: 2px solid #000;
@@ -274,6 +297,25 @@
 
         .voice-status.show {
             display: block;
+        }
+
+        /* Auto-save indicator */
+        .auto-save-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .auto-save-indicator.show {
+            opacity: 1;
         }
 
         /* Action Buttons */
@@ -326,7 +368,32 @@
         <div class="form-header">
             <h1>GOS 18</h1>
             <div class="subtitle">Referral / Notification <small>(Delete as appropriate)</small></div>
-        </div>
+            <!-- Voice Dictation Help -->
+        <details class="voice-help no-print" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border: 1px solid #dee2e6; font-size: 11px;">
+            <summary style="cursor: pointer; font-size: 14px; color: #495057; font-weight: bold;">🎤 Voice Dictation Tips for Medical Fields (click to expand)</summary>
+            <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <p style="margin: 5px 0; font-weight: bold;">Say this → Get this:</p>
+                    <ul style="margin: 5px 0; line-height: 1.8;">
+                        <li>"minus two point five" → <strong>-2.5</strong></li>
+                        <li>"plus one point seven five" → <strong>+1.75</strong></li>
+                        <li>"six over six" → <strong>6/6</strong></li>
+                        <li>"twenty over twenty" → <strong>20/20</strong></li>
+                        <li>"at ninety degrees" → <strong>@90°</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="margin: 5px 0; font-weight: bold;">Supported conversions:</p>
+                    <ul style="margin: 5px 0; line-height: 1.8;">
+                        <li>"minus" or "negative" → <strong>-</strong></li>
+                        <li>"plus" or "positive" → <strong>+</strong></li>
+                        <li>"point" → <strong>.</strong> (decimal)</li>
+                        <li>"over" → <strong>/</strong> (fraction)</li>
+                        <li>Number words → digits (e.g., "six" → 6)</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
 
         <div class="contact-notice">
             <input type="checkbox" id="contactNotice">
@@ -573,27 +640,187 @@
             </tr>
             <tr>
                 <td><strong>RE</strong></td>
-                <td><input type="text" name="reVision" class="small-input"></td>
-                <td><input type="text" name="reSph" class="small-input"></td>
-                <td><input type="text" name="reCyl" class="small-input"></td>
-                <td><input type="text" name="reAxis" class="small-input"></td>
-                <td><input type="text" name="reVA" class="small-input"></td>
-                <td><input type="text" name="reDistPrism" class="medium-input"></td>
-                <td><input type="text" name="reAdd" class="small-input"></td>
-                <td><input type="text" name="reNrPrism" class="small-input"></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reVision" id="reVision" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reVision" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reSph" id="reSph" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reSph" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reCyl" id="reCyl" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reCyl" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reAxis" id="reAxis" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reAxis" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reVA" id="reVA" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reVA" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reDistPrism" id="reDistPrism" class="medium-input">
+                        <button type="button" class="voice-btn" data-field="reDistPrism" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reAdd" id="reAdd" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reAdd" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="reNrPrism" id="reNrPrism" class="small-input">
+                        <button type="button" class="voice-btn" data-field="reNrPrism" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
                 <td>@</td>
                 <td>cm</td>
             </tr>
             <tr>
                 <td><strong>LE</strong></td>
-                <td><input type="text" name="leVision" class="small-input"></td>
-                <td><input type="text" name="leSph" class="small-input"></td>
-                <td><input type="text" name="leCyl" class="small-input"></td>
-                <td><input type="text" name="leAxis" class="small-input"></td>
-                <td><input type="text" name="leVA" class="small-input"></td>
-                <td><input type="text" name="leDistPrism" class="medium-input"></td>
-                <td><input type="text" name="leAdd" class="small-input"></td>
-                <td><input type="text" name="leNrPrism" class="small-input"></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leVision" id="leVision" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leVision" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leSph" id="leSph" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leSph" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leCyl" id="leCyl" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leCyl" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leAxis" id="leAxis" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leAxis" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leVA" id="leVA" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leVA" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leDistPrism" id="leDistPrism" class="medium-input">
+                        <button type="button" class="voice-btn" data-field="leDistPrism" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leAdd" id="leAdd" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leAdd" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="leNrPrism" id="leNrPrism" class="small-input">
+                        <button type="button" class="voice-btn" data-field="leNrPrism" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
                 <td>@</td>
                 <td>cm</td>
             </tr>
@@ -615,11 +842,41 @@
             </tr>
             <tr>
                 <td style="width: 8%;"><strong>RE:</strong></td>
-                <td style="width: 12%;"><input type="text" name="iopRE" class="small-input"></td>
+                <td style="width: 12%;">
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="iopRE" id="iopRE" class="small-input">
+                        <button type="button" class="voice-btn" data-field="iopRE" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
                 <td style="width: 8%;"><strong>LE:</strong></td>
-                <td style="width: 12%;"><input type="text" name="iopLE" class="small-input"></td>
+                <td style="width: 12%;">
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="iopLE" id="iopLE" class="small-input">
+                        <button type="button" class="voice-btn" data-field="iopLE" data-medical="true">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
                 <td style="width: 10%;"><strong>Time:</strong></td>
-                <td><input type="text" name="iopTime" class="medium-input"></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="text" name="iopTime" id="iopTime" class="medium-input">
+                        <button type="button" class="voice-btn" data-field="iopTime">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
             </tr>
         </table>
 
@@ -874,13 +1131,72 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons no-print">
-            <button type="button" class="btn btn-primary" onclick="saveForm()">Save Form</button>
+            <button type="button" class="btn btn-primary" onclick="saveForm(true)">Save Form</button>
             <button type="button" class="btn btn-success" onclick="window.print()">Print Form</button>
+        </div>
+        
+        <!-- Storage Info -->
+        <div class="storage-info no-print" style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; border: 1px solid #bee5eb; font-size: 11px;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #0c5460;">💾 Data Storage Information</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <p style="margin: 5px 0;"><strong>Where is your data saved?</strong></p>
+                    <ul style="margin: 5px 0 10px 20px; line-height: 1.6;">
+                        <li>Data saved in browser's local storage</li>
+                        <li>Persists between sessions</li>
+                        <li>Completely private - no server storage</li>
+                        <li>Device & browser specific</li>
+                    </ul>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 4px;">
+                    <p style="margin: 5px 0;"><strong>Storage Status:</strong></p>
+                    <p style="margin: 5px 0; font-size: 13px;" id="storageStatus">Checking...</p>
+                    <p style="margin: 10px 0 5px 0;"><strong>Auto-Save:</strong> <span style="color: #28a745;">✓ Enabled</span></p>
+                    <p style="margin: 5px 0;"><strong>Last Saved:</strong></p>
+                    <p style="margin: 5px 0; font-size: 13px; color: #0c5460;" id="lastSaveTime">Not saved yet</p>
+                </div>
+            </div>
+            <div style="margin-top: 15px; text-align: center;">
+                <button type="button" onclick="clearAllData()" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer;">
+                    🗑️ Clear All Data
+                </button>
+                <span style="margin-left: 10px; color: #6c757d; font-size: 10px;">⚠️ This action cannot be undone</span>
+            </div>
+        </div>
+        
+        <!-- Voice Dictation Help -->
+        <div class="voice-help no-print" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border: 1px solid #dee2e6; font-size: 11px;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #495057;">🎤 Voice Dictation Tips for Medical Fields</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <p style="margin: 5px 0; font-weight: bold;">Say this → Get this:</p>
+                    <ul style="margin: 5px 0; line-height: 1.8;">
+                        <li>"minus two point five" → <strong>-2.5</strong></li>
+                        <li>"plus one point seven five" → <strong>+1.75</strong></li>
+                        <li>"six over six" → <strong>6/6</strong></li>
+                        <li>"twenty over twenty" → <strong>20/20</strong></li>
+                        <li>"at ninety degrees" → <strong>@90°</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="margin: 5px 0; font-weight: bold;">Supported conversions:</p>
+                    <ul style="margin: 5px 0; line-height: 1.8;">
+                        <li>"minus" or "negative" → <strong>-</strong></li>
+                        <li>"plus" or "positive" → <strong>+</strong></li>
+                        <li>"point" → <strong>.</strong> (decimal)</li>
+                        <li>"over" → <strong>/</strong> (fraction)</li>
+                        <li>Number words → digits (e.g., "six" → 6)</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Voice Status Message -->
     <div id="voiceStatus" class="voice-status"></div>
+    
+    <!-- Auto-save Indicator -->
+    <div id="autoSaveIndicator" class="auto-save-indicator">Auto-saving...</div>
 
     <script>
         // Voice Dictation Handler
@@ -914,14 +1230,21 @@
                 };
 
                 this.recognition.onresult = (event) => {
-                    const transcript = Array.from(event.results)
+                    let transcript = Array.from(event.results)
                         .map(result => result[0])
                         .map(result => result.transcript)
                         .join('');
 
                     if (this.currentField && event.results[event.results.length - 1].isFinal) {
                         const field = document.getElementById(this.currentField);
+                        const button = document.querySelector(`[data-field="${this.currentField}"]`);
+                        
                         if (field) {
+                            // Check if this is a medical field that needs conversion
+                            if (button && button.getAttribute('data-medical') === 'true') {
+                                transcript = this.convertMedicalNotation(transcript);
+                            }
+                            
                             const currentValue = field.value;
                             field.value = currentValue + (currentValue ? ' ' : '') + transcript;
                         }
@@ -948,6 +1271,56 @@
                         }
                     }, 2000);
                 };
+            }
+
+            convertMedicalNotation(text) {
+                // Convert spoken medical notation to symbols
+                let converted = text.toLowerCase();
+                
+                // Basic conversions
+                converted = converted.replace(/\bminus\b/g, '-');
+                converted = converted.replace(/\bplus\b/g, '+');
+                converted = converted.replace(/\bnegative\b/g, '-');
+                converted = converted.replace(/\bpositive\b/g, '+');
+                
+                // Fraction conversions (e.g., "6 over 6" to "6/6")
+                converted = converted.replace(/(\d+)\s+over\s+(\d+)/g, '$1/$2');
+                
+                // Visual acuity specific (e.g., "six over six" to "6/6")
+                const numberWords = {
+                    'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
+                    'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9',
+                    'ten': '10', 'eleven': '11', 'twelve': '12', 'fifteen': '15',
+                    'eighteen': '18', 'twenty': '20', 'twenty-four': '24', 'thirty': '30',
+                    'thirty-six': '36', 'forty': '40', 'fifty': '50', 'sixty': '60'
+                };
+                
+                // Replace number words with digits
+                Object.keys(numberWords).forEach(word => {
+                    const regex = new RegExp(`\\b${word}\\b`, 'g');
+                    converted = converted.replace(regex, numberWords[word]);
+                });
+                
+                // Handle "point" for decimals (e.g., "minus one point five" to "-1.5")
+                converted = converted.replace(/\bpoint\b/g, '.');
+                
+                // Handle degrees (e.g., "ninety degrees" to "90°")
+                converted = converted.replace(/\b(\d+)\s*degrees?\b/g, '$1°');
+                
+                // Handle "at" for axis (e.g., "at ninety" to "@90")
+                converted = converted.replace(/\bat\s+(\d+)/g, '@$1');
+                
+                // Common optometry abbreviations
+                converted = converted.replace(/\bsphere\b/g, 'sph');
+                converted = converted.replace(/\bcylinder\b/g, 'cyl');
+                converted = converted.replace(/\baxis\b/g, 'ax');
+                converted = converted.replace(/\bvisual acuity\b/g, 'VA');
+                converted = converted.replace(/\bintraocular pressure\b/g, 'IOP');
+                
+                // Clean up extra spaces
+                converted = converted.replace(/\s+/g, ' ').trim();
+                
+                return converted;
             }
 
             attachEventListeners() {
@@ -1071,8 +1444,14 @@
         }
 
         // Form functions
-        function saveForm() {
+        function saveForm(showAlert = true) {
             const formData = {};
+            
+            // Show auto-save indicator if not manual save
+            if (!showAlert) {
+                const indicator = document.getElementById('autoSaveIndicator');
+                indicator.classList.add('show');
+            }
             
             // Get all inputs
             document.querySelectorAll('input[type="text"], input[type="date"], input[type="tel"], input[type="email"], textarea').forEach(field => {
@@ -1089,10 +1468,32 @@
             });
 
             const storage = new FormStorage();
-            if (storage.save(formData)) {
-                alert('Form saved successfully!');
-            } else {
-                alert('Form saved temporarily (will be lost when you close the browser)');
+            const saved = storage.save(formData);
+            
+            // Update last save time
+            const now = new Date();
+            const timeString = now.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('lastSaveTime').textContent = timeString;
+            
+            // Hide auto-save indicator after a moment
+            if (!showAlert) {
+                setTimeout(() => {
+                    document.getElementById('autoSaveIndicator').classList.remove('show');
+                }, 1500);
+            }
+            
+            if (showAlert) {
+                if (saved) {
+                    alert('Form saved successfully!');
+                } else {
+                    alert('Form saved temporarily (will be lost when you close the browser)');
+                }
             }
         }
 
@@ -1115,6 +1516,53 @@
             }
         }
 
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all form data? This cannot be undone.')) {
+                const storage = new FormStorage();
+                if (storage.canUseLocalStorage) {
+                    localStorage.removeItem(storage.storageKey);
+                }
+                
+                // Clear all form fields
+                document.querySelectorAll('input[type="text"], input[type="date"], input[type="tel"], input[type="email"], textarea').forEach(field => {
+                    field.value = '';
+                });
+                
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                document.getElementById('lastSaveTime').textContent = 'Not saved yet';
+                alert('All data has been cleared.');
+            }
+        }
+
+        function checkStorageStatus() {
+            const storage = new FormStorage();
+            const statusEl = document.getElementById('storageStatus');
+            
+            if (storage.canUseLocalStorage) {
+                // Check how much data is stored
+                try {
+                    const data = localStorage.getItem(storage.storageKey);
+                    if (data) {
+                        const sizeInKB = (new Blob([data]).size / 1024).toFixed(2);
+                        statusEl.textContent = `✅ Local storage working (${sizeInKB} KB used)`;
+                        statusEl.style.color = 'green';
+                    } else {
+                        statusEl.textContent = '✅ Local storage available (no data saved yet)';
+                        statusEl.style.color = 'green';
+                    }
+                } catch (e) {
+                    statusEl.textContent = '⚠️ Local storage available but restricted';
+                    statusEl.style.color = 'orange';
+                }
+            } else {
+                statusEl.textContent = '❌ Local storage not available (using temporary memory)';
+                statusEl.style.color = 'red';
+            }
+        }
+
         // Initialize on load
         let voiceDictation;
 
@@ -1125,12 +1573,30 @@
             // Load saved form data
             loadForm();
             
+            // Check storage status
+            checkStorageStatus();
+            
             // Auto-save on input
             let saveTimeout;
             document.addEventListener('input', () => {
                 clearTimeout(saveTimeout);
-                saveTimeout = setTimeout(saveForm, 1000);
+                saveTimeout = setTimeout(() => {
+                    saveForm(false); // false = don't show alert
+                }, 1000);
             });
+            
+            // Also save on checkbox changes
+            document.addEventListener('change', (e) => {
+                if (e.target.type === 'checkbox') {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        saveForm(false); // false = don't show alert
+                    }, 500);
+                }
+            });
+            
+            // Update storage status periodically
+            setInterval(checkStorageStatus, 30000); // Check every 30 seconds
         });
     </script>
 </body>
