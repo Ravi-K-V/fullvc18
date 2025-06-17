@@ -354,6 +354,15 @@
             background: #45a049;
         }
 
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+        }
+
         /* Mic Icon */
         .mic-icon {
             width: 14px;
@@ -1133,63 +1142,39 @@
         <div class="action-buttons no-print">
             <button type="button" class="btn btn-primary" onclick="saveForm(true)">Save Form</button>
             <button type="button" class="btn btn-success" onclick="window.print()">Print Form</button>
+            <button type="button" class="btn btn-info" onclick="emailForm()">📧 Email Form</button>
         </div>
         
         <!-- Storage Info -->
-        <div class="storage-info no-print" style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; border: 1px solid #bee5eb; font-size: 11px;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #0c5460;">💾 Data Storage Information</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <p style="margin: 5px 0;"><strong>Where is your data saved?</strong></p>
-                    <ul style="margin: 5px 0 10px 20px; line-height: 1.6;">
-                        <li>Data saved in browser's local storage</li>
-                        <li>Persists between sessions</li>
-                        <li>Completely private - no server storage</li>
-                        <li>Device & browser specific</li>
-                    </ul>
+        <details class="storage-info no-print" style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; border: 1px solid #bee5eb; font-size: 11px;">
+            <summary style="cursor: pointer; font-size: 14px; color: #0c5460; font-weight: bold;">💾 Data Storage Information (click to expand)</summary>
+            <div style="margin-top: 10px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <p style="margin: 5px 0;"><strong>Where is your data saved?</strong></p>
+                        <ul style="margin: 5px 0 10px 20px; line-height: 1.6;">
+                            <li>Data saved in browser's local storage</li>
+                            <li>Persists between sessions</li>
+                            <li>Completely private - no server storage</li>
+                            <li>Device & browser specific</li>
+                        </ul>
+                    </div>
+                    <div style="background: white; padding: 10px; border-radius: 4px;">
+                        <p style="margin: 5px 0;"><strong>Storage Status:</strong></p>
+                        <p style="margin: 5px 0; font-size: 13px;" id="storageStatus">Checking...</p>
+                        <p style="margin: 10px 0 5px 0;"><strong>Auto-Save:</strong> <span style="color: #28a745;">✓ Enabled</span></p>
+                        <p style="margin: 5px 0;"><strong>Last Saved:</strong></p>
+                        <p style="margin: 5px 0; font-size: 13px; color: #0c5460;" id="lastSaveTime">Not saved yet</p>
+                    </div>
                 </div>
-                <div style="background: white; padding: 10px; border-radius: 4px;">
-                    <p style="margin: 5px 0;"><strong>Storage Status:</strong></p>
-                    <p style="margin: 5px 0; font-size: 13px;" id="storageStatus">Checking...</p>
-                    <p style="margin: 10px 0 5px 0;"><strong>Auto-Save:</strong> <span style="color: #28a745;">✓ Enabled</span></p>
-                    <p style="margin: 5px 0;"><strong>Last Saved:</strong></p>
-                    <p style="margin: 5px 0; font-size: 13px; color: #0c5460;" id="lastSaveTime">Not saved yet</p>
-                </div>
-            </div>
-            <div style="margin-top: 15px; text-align: center;">
-                <button type="button" onclick="clearAllData()" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer;">
-                    🗑️ Clear All Data
-                </button>
-                <span style="margin-left: 10px; color: #6c757d; font-size: 10px;">⚠️ This action cannot be undone</span>
-            </div>
-        </div>
-        
-        <!-- Voice Dictation Help -->
-        <div class="voice-help no-print" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border: 1px solid #dee2e6; font-size: 11px;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #495057;">🎤 Voice Dictation Tips for Medical Fields</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <p style="margin: 5px 0; font-weight: bold;">Say this → Get this:</p>
-                    <ul style="margin: 5px 0; line-height: 1.8;">
-                        <li>"minus two point five" → <strong>-2.5</strong></li>
-                        <li>"plus one point seven five" → <strong>+1.75</strong></li>
-                        <li>"six over six" → <strong>6/6</strong></li>
-                        <li>"twenty over twenty" → <strong>20/20</strong></li>
-                        <li>"at ninety degrees" → <strong>@90°</strong></li>
-                    </ul>
-                </div>
-                <div>
-                    <p style="margin: 5px 0; font-weight: bold;">Supported conversions:</p>
-                    <ul style="margin: 5px 0; line-height: 1.8;">
-                        <li>"minus" or "negative" → <strong>-</strong></li>
-                        <li>"plus" or "positive" → <strong>+</strong></li>
-                        <li>"point" → <strong>.</strong> (decimal)</li>
-                        <li>"over" → <strong>/</strong> (fraction)</li>
-                        <li>Number words → digits (e.g., "six" → 6)</li>
-                    </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button type="button" onclick="clearAllData()" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer;">
+                        🗑️ Clear All Data
+                    </button>
+                    <span style="margin-left: 10px; color: #6c757d; font-size: 10px;">⚠️ This action cannot be undone</span>
                 </div>
             </div>
-        </div>
+        </details>
     </div>
 
     <!-- Voice Status Message -->
@@ -1561,6 +1546,108 @@
                 statusEl.textContent = '❌ Local storage not available (using temporary memory)';
                 statusEl.style.color = 'red';
             }
+        }
+
+        // Email Form Function
+        function emailForm() {
+            // Collect all form data
+            const getValue = (id) => {
+                const element = document.getElementById(id);
+                return element ? element.value : '';
+            };
+            
+            const getChecked = (id) => {
+                const element = document.getElementById(id);
+                return element && element.checked ? '✓' : '';
+            };
+            
+            // Format the form data into a readable email body
+            let emailBody = `GOS 18 - REFERRAL/NOTIFICATION FORM\n`;
+            emailBody += `=======================================\n\n`;
+            
+            // Patient Details
+            emailBody += `PATIENT DETAILS\n`;
+            emailBody += `---------------\n`;
+            emailBody += `NHS Number: ${getValue('nhsNumber')}\n`;
+            emailBody += `Consultation Date: ${getValue('consultationDate')}\n`;
+            emailBody += `Title: ${getValue('title')}\n`;
+            emailBody += `Name: ${getValue('firstName')} ${getValue('surname')}\n`;
+            emailBody += `DOB: ${getValue('dob')}\n`;
+            emailBody += `Address: ${getValue('address')}\n`;
+            emailBody += `Post Code: ${getValue('postcode')}\n`;
+            emailBody += `Tel (H): ${getValue('telHome')}\n`;
+            emailBody += `Tel (M): ${getValue('telMobile')}\n`;
+            emailBody += `Other: ${getValue('other')}\n\n`;
+            
+            // GP & Optometrist Details
+            emailBody += `GP DETAILS\n`;
+            emailBody += `----------\n`;
+            emailBody += `${getValue('gpDetails')}\n`;
+            emailBody += `Email: ${getValue('gpEmail')}\n`;
+            emailBody += `Tel: ${getValue('gpTel')}\n\n`;
+            
+            emailBody += `OPTOMETRIST DETAILS\n`;
+            emailBody += `-------------------\n`;
+            emailBody += `${getValue('optometristDetails')}\n`;
+            emailBody += `Email: ${getValue('optEmail')}\n`;
+            emailBody += `Tel: ${getValue('optTel')}\n\n`;
+            
+            // Prescription
+            emailBody += `LATEST SPECTACLE PRESCRIPTION\n`;
+            emailBody += `-----------------------------\n`;
+            emailBody += `RIGHT EYE (RE):\n`;
+            emailBody += `  Vision: ${getValue('reVision')}\n`;
+            emailBody += `  Sph: ${getValue('reSph')} | Cyl: ${getValue('reCyl')} | Axis: ${getValue('reAxis')}\n`;
+            emailBody += `  VA: ${getValue('reVA')} | Dist. Prism: ${getValue('reDistPrism')}\n`;
+            emailBody += `  Add: ${getValue('reAdd')} | Nr. Prism: ${getValue('reNrPrism')}\n\n`;
+            
+            emailBody += `LEFT EYE (LE):\n`;
+            emailBody += `  Vision: ${getValue('leVision')}\n`;
+            emailBody += `  Sph: ${getValue('leSph')} | Cyl: ${getValue('leCyl')} | Axis: ${getValue('leAxis')}\n`;
+            emailBody += `  VA: ${getValue('leVA')} | Dist. Prism: ${getValue('leDistPrism')}\n`;
+            emailBody += `  Add: ${getValue('leAdd')} | Nr. Prism: ${getValue('leNrPrism')}\n\n`;
+            
+            // Clinical Data
+            emailBody += `CLINICAL DATA\n`;
+            emailBody += `-------------\n`;
+            emailBody += `Mydriasis: Y${getChecked('mydriasisY')} N${getChecked('mydriasisN')}\n`;
+            emailBody += `IOP: RE: ${getValue('iopRE')} | LE: ${getValue('iopLE')} | Time: ${getValue('iopTime')}\n`;
+            emailBody += `Contact${getChecked('contact')} | Non-Contact${getChecked('nonContact')}\n\n`;
+            
+            // Clinical Findings
+            emailBody += `CLINICAL FINDINGS\n`;
+            emailBody += `-----------------\n`;
+            emailBody += `${getValue('clinicalFindings')}\n\n`;
+            emailBody += `Provisional Diagnosis: ${getValue('provisionalDiagnosis')}\n\n`;
+            
+            // Referral Information
+            emailBody += `REFERRAL INFORMATION\n`;
+            emailBody += `--------------------\n`;
+            if (getChecked('refHES')) emailBody += `- HES\n`;
+            if (getChecked('refOcularEmergency')) emailBody += `- Ocular Emergency\n`;
+            if (getChecked('refUrgent')) emailBody += `- Urgent (within 1 week)\n`;
+            if (getChecked('refSoon')) emailBody += `- Soon (within 4 weeks)\n`;
+            if (getChecked('refRoutine')) emailBody += `- Routine (within 12 weeks)\n`;
+            if (getChecked('refGP')) emailBody += `- GP Referral\n`;
+            if (getChecked('refReview')) emailBody += `- For Review and management\n`;
+            if (getChecked('refNotification')) emailBody += `- Notification Only\n\n`;
+            
+            // Optometrist Signature
+            emailBody += `OPTOMETRIST SIGNATURE\n`;
+            emailBody += `---------------------\n`;
+            emailBody += `Name: ${getValue('optometristName')}\n`;
+            emailBody += `Date: ${getValue('signDate')}\n`;
+            emailBody += `GOC No: 01-${getValue('gocNumber')}\n`;
+            
+            // Create mailto link
+            const subject = encodeURIComponent(`GOS 18 Referral - ${getValue('firstName')} ${getValue('surname')} - ${getValue('consultationDate')}`);
+            const body = encodeURIComponent(emailBody);
+            
+            // GP email as default recipient
+            const recipient = getValue('gpEmail') || '';
+            
+            // Open email client
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
         }
 
         // Initialize on load
