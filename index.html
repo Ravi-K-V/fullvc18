@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOS 18 - Referral/Notification Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .form-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .form-header .subtitle {
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .contact-notice {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 10px 0;
+            font-size: 11px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        td, th {
+            border: 1px solid #000;
+            padding: 4px;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        /* Input Styles */
+        input[type="text"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 3px 30px 3px 3px;
+            border: none;
+            background: transparent;
+            font-size: 11px;
+            position: relative;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 3px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Voice Input Container */
+        .voice-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Voice Button */
+        .voice-btn {
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: #2196F3;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        textarea ~ .voice-btn {
+            top: 5px;
+            transform: none;
+        }
+
+        .voice-btn:hover {
+            background: #1976D2;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        textarea ~ .voice-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .voice-btn.recording {
+            background: #f44336;
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(244, 67, 54, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+        }
+
+        /* Section Headers */
+        .section-header {
+            background: #333;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* Layout Classes */
+        .row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .col-50 {
+            flex: 1;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        /* Clinical Findings Box */
+        .clinical-findings-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .clinical-findings-box textarea {
+            width: 100%;
+            min-height: 150px;
+            border: none;
+            padding-right: 30px;
+        }
+
+        /* Prescription Table */
+        .prescription-table {
+            font-size: 10px;
+        }
+
+        .prescription-table input {
+            text-align: center;
+            padding: 2px;
+        }
+
+        /* Footer */
+        .form-footer {
+            margin-top: 20px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .form-container {
+                box-shadow: none;
+                padding: 10px;
+            }
+
+            .voice-btn {
+                display: none !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Small Input Fields */
+        .small-input {
+            width: 60px;
+        }
+
+        .medium-input {
+            width: 100px;
+        }
+
+        /* Referral Section */
+        .referral-section {
+            border: 2px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        /* Status Message */
+        .voice-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .voice-status.show {
+            display: block;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        /* Mic Icon */
+        .mic-icon {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <!-- Header -->
+        <div class="form-header">
+            <h1>GOS 18</h1>
+            <div class="subtitle">Referral / Notification <small>(Delete as appropriate)</small></div>
+        </div>
+
+        <div class="contact-notice">
+            <input type="checkbox" id="contactNotice">
+            <label for="contactNotice">Please contact the patient if they do not contact you or do not attend</label>
+        </div>
+
+        <!-- NHS Number and Date -->
+        <table>
+            <tr>
+                <td style="width: 30%;">
+                    <strong>NHS Number:</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="nhsNumber" name="nhsNumber">
+                        <button type="button" class="voice-btn" data-field="nhsNumber">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td style="width: 70%;">
+                    <strong>CONSULTATION DATE</strong> <small>(dd/mm/yyyy)</small>:
+                    <input type="date" id="consultationDate" name="consultationDate">
+                </td>
+            </tr>
+        </table>
+
+        <!-- Patient Details -->
+        <div class="section-header">Patient Details</div>
+        <table>
+            <tr>
+                <td style="width: 20%;">
+                    <strong>Title:</strong> <small>Mr/Mrs/Miss/Ms/Other</small>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="title" name="title">
+                        <button type="button" class="voice-btn" data-field="title">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td style="width: 20%;">
+                    <strong>DOB:</strong>
+                    <input type="date" id="dob" name="dob">
+                </td>
+                <td rowspan="4" style="width: 60%;">
+                    <strong>Address:</strong>
+                    <div class="voice-input-wrapper">
+                        <textarea id="address" name="address" rows="4"></textarea>
+                        <button type="button" class="voice-btn" data-field="address">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Surname:</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="surname" name="surname">
+                        <button type="button" class="voice-btn" data-field="surname">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <strong>Tel (H):</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="tel" id="telHome" name="telHome">
+                        <button type="button" class="voice-btn" data-field="telHome">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>First Names:</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="firstName" name="firstName">
+                        <button type="button" class="voice-btn" data-field="firstName">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <strong>Tel (M):</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="tel" id="telMobile" name="telMobile">
+                        <button type="button" class="voice-btn" data-field="telMobile">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>Other:</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="other" name="other">
+                        <button type="button" class="voice-btn" data-field="other">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>Post Code:</strong>
+                    <div class="voice-input-wrapper" style="width: 150px; display: inline-block;">
+                        <input type="text" id="postcode" name="postcode">
+                        <button type="button" class="voice-btn" data-field="postcode">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- GP and Optometrist Details -->
+        <table>
+            <tr>
+                <td colspan="2" class="section-header">GP Details</td>
+                <td colspan="2" class="section-header">Optometrist Details</td>
+            </tr>
+            <tr>
+                <td style="width: 15%;"><strong>Name<br>Address</strong></td>
+                <td style="width: 35%;">
+                    <div class="voice-input-wrapper">
+                        <textarea id="gpDetails" name="gpDetails" rows="3"></textarea>
+                        <button type="button" class="voice-btn" data-field="gpDetails">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td style="width: 15%;"><strong>Name<br>Address</strong></td>
+                <td style="width: 35%;">
+                    <div class="voice-input-wrapper">
+                        <textarea id="optometristDetails" name="optometristDetails" rows="3"></textarea>
+                        <button type="button" class="voice-btn" data-field="optometristDetails">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>E.Mail:</strong></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="email" id="gpEmail" name="gpEmail">
+                        <button type="button" class="voice-btn" data-field="gpEmail">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td><strong>E.Mail:</strong></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="email" id="optEmail" name="optEmail">
+                        <button type="button" class="voice-btn" data-field="optEmail">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Tel:</strong></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="tel" id="gpTel" name="gpTel">
+                        <button type="button" class="voice-btn" data-field="gpTel">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td><strong>Tel:</strong></td>
+                <td>
+                    <div class="voice-input-wrapper">
+                        <input type="tel" id="optTel" name="optTel">
+                        <button type="button" class="voice-btn" data-field="optTel">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Latest Spectacle Prescription -->
+        <div class="section-header">Latest Spectacle Prescription</div>
+        <table class="prescription-table">
+            <tr>
+                <th>Rx</th>
+                <th>Vision</th>
+                <th>Sph</th>
+                <th>Cyl</th>
+                <th>Axis</th>
+                <th>VA</th>
+                <th>Dist. Prism PH Acuity</th>
+                <th>Add</th>
+                <th>Nr. Prism</th>
+                <th colspan="2">Near VA</th>
+            </tr>
+            <tr>
+                <td><strong>RE</strong></td>
+                <td><input type="text" name="reVision" class="small-input"></td>
+                <td><input type="text" name="reSph" class="small-input"></td>
+                <td><input type="text" name="reCyl" class="small-input"></td>
+                <td><input type="text" name="reAxis" class="small-input"></td>
+                <td><input type="text" name="reVA" class="small-input"></td>
+                <td><input type="text" name="reDistPrism" class="medium-input"></td>
+                <td><input type="text" name="reAdd" class="small-input"></td>
+                <td><input type="text" name="reNrPrism" class="small-input"></td>
+                <td>@</td>
+                <td>cm</td>
+            </tr>
+            <tr>
+                <td><strong>LE</strong></td>
+                <td><input type="text" name="leVision" class="small-input"></td>
+                <td><input type="text" name="leSph" class="small-input"></td>
+                <td><input type="text" name="leCyl" class="small-input"></td>
+                <td><input type="text" name="leAxis" class="small-input"></td>
+                <td><input type="text" name="leVA" class="small-input"></td>
+                <td><input type="text" name="leDistPrism" class="medium-input"></td>
+                <td><input type="text" name="leAdd" class="small-input"></td>
+                <td><input type="text" name="leNrPrism" class="small-input"></td>
+                <td>@</td>
+                <td>cm</td>
+            </tr>
+        </table>
+
+        <!-- Additional Clinical Data -->
+        <table>
+            <tr>
+                <td rowspan="2" style="width: 20%;">
+                    <strong>Mydriasis</strong><br>
+                    <input type="checkbox" name="mydriasisY" id="mydriasisY"> <label for="mydriasisY">Y</label>
+                    <input type="checkbox" name="mydriasisN" id="mydriasisN"> <label for="mydriasisN">N</label>
+                </td>
+                <td colspan="5" class="section-header">Intraocular Pressure (IOP)</td>
+                <td style="width: 25%;">
+                    <input type="checkbox" name="contact" id="contact"> <label for="contact">Contact</label>
+                    <input type="checkbox" name="nonContact" id="nonContact"> <label for="nonContact">Non-Contact</label>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 8%;"><strong>RE:</strong></td>
+                <td style="width: 12%;"><input type="text" name="iopRE" class="small-input"></td>
+                <td style="width: 8%;"><strong>LE:</strong></td>
+                <td style="width: 12%;"><input type="text" name="iopLE" class="small-input"></td>
+                <td style="width: 10%;"><strong>Time:</strong></td>
+                <td><input type="text" name="iopTime" class="medium-input"></td>
+            </tr>
+        </table>
+
+        <!-- Visual Fields and Imaging -->
+        <table>
+            <tr>
+                <td style="width: 15%;"><strong>V.Fields</strong></td>
+                <td style="width: 10%;"><strong>RE:</strong></td>
+                <td style="width: 25%;">
+                    <input type="checkbox" name="vfREAttached" id="vfREAttached"> <label for="vfREAttached">Attached</label>
+                </td>
+                <td style="width: 15%;"><strong>Imaging</strong></td>
+                <td style="width: 10%;"><strong>RE:</strong></td>
+                <td style="width: 25%;">
+                    <input type="checkbox" name="imgREAttached" id="imgREAttached"> <label for="imgREAttached">Attached</label>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Method:</strong></td>
+                <td><strong>LE:</strong></td>
+                <td>
+                    <input type="checkbox" name="vfLEAttached" id="vfLEAttached"> <label for="vfLEAttached">Attached</label>
+                </td>
+                <td><strong>Method:</strong></td>
+                <td><strong>LE:</strong></td>
+                <td>
+                    <input type="checkbox" name="imgLEAttached" id="imgLEAttached"> <label for="imgLEAttached">Attached</label>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Clinical Findings -->
+        <div class="clinical-findings-box">
+            <div class="section-header">Salient Symptoms, Signs, History, Clinical Findings, Reason for Referral and Provisional Diagnosis</div>
+            <div class="voice-input-wrapper">
+                <textarea id="clinicalFindings" name="clinicalFindings" rows="8"></textarea>
+                <button type="button" class="voice-btn" data-field="clinicalFindings">
+                    <svg class="mic-icon" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </button>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <strong>Provisional Diagnosis:</strong>
+                <div class="voice-input-wrapper" style="display: inline-block; width: 400px;">
+                    <input type="text" id="provisionalDiagnosis" name="provisionalDiagnosis" style="text-align: center;">
+                    <button type="button" class="voice-btn" data-field="provisionalDiagnosis">
+                        <svg class="mic-icon" viewBox="0 0 24 24">
+                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consent Statement -->
+        <div style="margin: 10px 0; font-size: 10px;">
+            I agree that any practitioner to whom I am referred for medical consultation and or treatment may make any information relevant to my eye condition and its treatment available to my optometrist. 
+            Signed ........................................ Date .................................
+        </div>
+
+        <!-- Referral Section -->
+        <div class="referral-section">
+            <table>
+                <tr>
+                    <td rowspan="2" style="width: 20%; vertical-align: top;">
+                        <strong style="font-style: italic;">Referral</strong>
+                    </td>
+                    <td>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="refHES" id="refHES">
+                                <label for="refHES">HES</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="refOcularEmergency" id="refOcularEmergency">
+                                <label for="refOcularEmergency">Ocular Emergency - to Hospital A&E Eye Service</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="refUrgent" id="refUrgent">
+                                <label for="refUrgent">Urgent - to HES within 1 week</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="refSoon" id="refSoon">
+                                <label for="refSoon">Soon - to HES within 4 weeks</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="refRoutine" id="refRoutine">
+                                <label for="refRoutine">Routine - to HES within 12 weeks</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Suggested Clinic Type</strong>
+                        <div class="checkbox-group" style="margin-top: 5px;">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicCataract" id="clinicCataract">
+                                <label for="clinicCataract">Cataract</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicLowVision" id="clinicLowVision">
+                                <label for="clinicLowVision">Low Vison</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicOtherMedRetina" id="clinicOtherMedRetina">
+                                <label for="clinicOtherMedRetina">Other Medical Retina</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicPaedGeneral" id="clinicPaedGeneral">
+                                <label for="clinicPaedGeneral">Paed. General Ophth</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicCornea" id="clinicCornea">
+                                <label for="clinicCornea">Cornea & Ant. Seg.</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicMacula" id="clinicMacula">
+                                <label for="clinicMacula">Macula</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicSquint" id="clinicSquint">
+                                <label for="clinicSquint">Squint/Ocular Motility</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicPaedOrthoptics" id="clinicPaedOrthoptics">
+                                <label for="clinicPaedOrthoptics">Paed. Orthoptics</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicDiabetic" id="clinicDiabetic">
+                                <label for="clinicDiabetic">Diab. Medical Retina</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicOncology" id="clinicOncology">
+                                <label for="clinicOncology">Oncology (Diagnosed)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicVitreoRetinal" id="clinicVitreoRetinal">
+                                <label for="clinicVitreoRetinal">Vitreo-Retinal</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicGeneralOphth" id="clinicGeneralOphth">
+                                <label for="clinicGeneralOphth">General Ophthalmology</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicExternalEye" id="clinicExternalEye">
+                                <label for="clinicExternalEye">External Eye/Adnexa</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicOculoplastics" id="clinicOculoplastics">
+                                <label for="clinicOculoplastics">Oculoplastics/Orb./Lacr</label>
+                            </div>
+                            <div style="display: inline;">
+                                <label style="margin-left: 10px;">(Not otherwise specified)</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicGlaucoma" id="clinicGlaucoma">
+                                <label for="clinicGlaucoma">Glaucoma/OHT</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="clinicOrthoptics" id="clinicOrthoptics">
+                                <label for="clinicOrthoptics">Orthoptics</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- GP Referral -->
+        <table style="margin-top: 10px;">
+            <tr>
+                <td style="width: 20%; font-style: italic;"><strong>Referral</strong></td>
+                <td>
+                    <input type="checkbox" name="refGP" id="refGP">
+                    <label for="refGP"><strong>GP</strong></label>
+                    <input type="checkbox" name="refReview" id="refReview">
+                    <label for="refReview">For Review and management/refer as appropriate</label>
+                    <input type="checkbox" name="refNotification" id="refNotification">
+                    <label for="refNotification" style="font-style: italic;">Notification Only</label>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Optometrist Details -->
+        <table style="margin-top: 10px;">
+            <tr>
+                <td style="width: 25%;">
+                    <strong>Optometrist Name:</strong>
+                    <div class="voice-input-wrapper">
+                        <input type="text" id="optometristName" name="optometristName">
+                        <button type="button" class="voice-btn" data-field="optometristName">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+                <td style="width: 25%;">
+                    <strong>Signature</strong>
+                </td>
+                <td style="width: 25%;">
+                    <strong>Date:</strong>
+                    <input type="date" id="signDate" name="signDate">
+                </td>
+                <td style="width: 25%;">
+                    <strong>GOC No: 01-</strong>
+                    <div class="voice-input-wrapper" style="display: inline-block; width: 100px;">
+                        <input type="text" id="gocNumber" name="gocNumber">
+                        <button type="button" class="voice-btn" data-field="gocNumber">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <strong>#</strong>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <p>Please obtain consent from the patient if not already given, and provide feedback to the referring optometrist</p>
+            <div style="margin-top: 10px;">
+                Referral Letter:
+                <input type="checkbox" name="letterPatient" id="letterPatient">
+                <label for="letterPatient">Patient Copy</label>
+                <input type="checkbox" name="letterPosted" id="letterPosted">
+                <label for="letterPosted">Posted to GP</label>
+                <input type="checkbox" name="letterHanded" id="letterHanded">
+                <label for="letterHanded">Handed to Px to take to GP/HES</label>
+                <input type="checkbox" name="letterFaxed" id="letterFaxed">
+                <label for="letterFaxed">Faxed to HES</label>
+            </div>
+            <p style="margin-top: 10px;">DGOS18 Unshaded Excel.xlsx</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons no-print">
+            <button type="button" class="btn btn-primary" onclick="saveForm()">Save Form</button>
+            <button type="button" class="btn btn-success" onclick="window.print()">Print Form</button>
+        </div>
+    </div>
+
+    <!-- Voice Status Message -->
+    <div id="voiceStatus" class="voice-status"></div>
+
+    <script>
+        // Voice Dictation Handler
+        class VoiceDictation {
+            constructor() {
+                this.recognition = null;
+                this.isListening = false;
+                this.currentField = null;
+                this.setupRecognition();
+                this.attachEventListeners();
+            }
+
+            setupRecognition() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (!SpeechRecognition) {
+                    console.warn('Speech recognition not supported');
+                    this.disableAllButtons();
+                    return;
+                }
+
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = true;
+                this.recognition.interimResults = true;
+                this.recognition.lang = 'en-GB';
+
+                this.recognition.onstart = () => {
+                    this.isListening = true;
+                    this.updateUI('listening');
+                    this.showStatus('Listening... Speak clearly');
+                };
+
+                this.recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+
+                    if (this.currentField && event.results[event.results.length - 1].isFinal) {
+                        const field = document.getElementById(this.currentField);
+                        if (field) {
+                            const currentValue = field.value;
+                            field.value = currentValue + (currentValue ? ' ' : '') + transcript;
+                        }
+                    }
+                };
+
+                this.recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    this.showStatus(`Error: ${event.error}`, 'error');
+                    this.stop();
+                };
+
+                this.recognition.onend = () => {
+                    this.isListening = false;
+                    this.updateUI('idle');
+                };
+
+                // Auto-stop after 5 seconds of silence
+                this.recognition.onspeechend = () => {
+                    setTimeout(() => {
+                        if (this.isListening) {
+                            this.stop();
+                            this.showStatus('Stopped after silence');
+                        }
+                    }, 2000);
+                };
+            }
+
+            attachEventListeners() {
+                document.querySelectorAll('.voice-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const fieldId = button.getAttribute('data-field');
+                        this.toggleDictation(fieldId);
+                    });
+                });
+            }
+
+            toggleDictation(fieldId) {
+                if (this.isListening && this.currentField === fieldId) {
+                    this.stop();
+                } else {
+                    if (this.isListening) {
+                        this.stop();
+                    }
+                    setTimeout(() => this.start(fieldId), 100);
+                }
+            }
+
+            start(fieldId) {
+                this.currentField = fieldId;
+                try {
+                    this.recognition.start();
+                } catch (error) {
+                    if (error.name === 'InvalidStateError') {
+                        this.recognition.stop();
+                        setTimeout(() => this.recognition.start(), 100);
+                    }
+                }
+            }
+
+            stop() {
+                if (this.recognition && this.isListening) {
+                    this.recognition.stop();
+                }
+            }
+
+            updateUI(state) {
+                const button = document.querySelector(`[data-field="${this.currentField}"]`);
+                if (button) {
+                    if (state === 'listening') {
+                        button.classList.add('recording');
+                    } else {
+                        button.classList.remove('recording');
+                    }
+                }
+            }
+
+            showStatus(message, type = 'info') {
+                const statusEl = document.getElementById('voiceStatus');
+                statusEl.textContent = message;
+                statusEl.classList.add('show');
+                
+                if (type === 'error') {
+                    statusEl.style.background = '#f44336';
+                } else {
+                    statusEl.style.background = '#333';
+                }
+
+                setTimeout(() => {
+                    statusEl.classList.remove('show');
+                }, 3000);
+            }
+
+            disableAllButtons() {
+                document.querySelectorAll('.voice-btn').forEach(button => {
+                    button.disabled = true;
+                    button.style.background = '#ccc';
+                    button.title = 'Voice dictation not supported in your browser';
+                });
+            }
+        }
+
+        // Storage handler
+        class FormStorage {
+            constructor() {
+                this.storageKey = 'gos18FormData';
+                this.canUseLocalStorage = this.checkLocalStorage();
+            }
+
+            checkLocalStorage() {
+                try {
+                    const test = '__test__';
+                    localStorage.setItem(test, test);
+                    localStorage.removeItem(test);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            save(data) {
+                if (this.canUseLocalStorage) {
+                    try {
+                        localStorage.setItem(this.storageKey, JSON.stringify(data));
+                        return true;
+                    } catch (e) {
+                        console.warn('Could not save to localStorage');
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            load() {
+                if (this.canUseLocalStorage) {
+                    try {
+                        const data = localStorage.getItem(this.storageKey);
+                        return data ? JSON.parse(data) : null;
+                    } catch (e) {
+                        console.warn('Could not load from localStorage');
+                        return null;
+                    }
+                }
+                return null;
+            }
+        }
+
+        // Form functions
+        function saveForm() {
+            const formData = {};
+            
+            // Get all inputs
+            document.querySelectorAll('input[type="text"], input[type="date"], input[type="tel"], input[type="email"], textarea').forEach(field => {
+                if (field.name || field.id) {
+                    formData[field.name || field.id] = field.value;
+                }
+            });
+
+            // Get checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                if (checkbox.name || checkbox.id) {
+                    formData[checkbox.name || checkbox.id] = checkbox.checked;
+                }
+            });
+
+            const storage = new FormStorage();
+            if (storage.save(formData)) {
+                alert('Form saved successfully!');
+            } else {
+                alert('Form saved temporarily (will be lost when you close the browser)');
+            }
+        }
+
+        function loadForm() {
+            const storage = new FormStorage();
+            const data = storage.load();
+            
+            if (data) {
+                // Load text inputs
+                Object.keys(data).forEach(key => {
+                    const field = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+                    if (field) {
+                        if (field.type === 'checkbox') {
+                            field.checked = data[key];
+                        } else {
+                            field.value = data[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize on load
+        let voiceDictation;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize voice dictation
+            voiceDictation = new VoiceDictation();
+            
+            // Load saved form data
+            loadForm();
+            
+            // Auto-save on input
+            let saveTimeout;
+            document.addEventListener('input', () => {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(saveForm, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
