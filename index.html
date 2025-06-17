@@ -4,7 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOS 18 - Referral/Notification Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --secondary: #06B6D4;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --dark: #1F2937;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,214 +41,487 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            line-height: 1.4;
-            background: #f0f0f0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E9ECEF 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
             padding: 20px;
         }
 
         .form-container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
             background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
         }
 
         /* Header */
         .form-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            margin-bottom: 10px;
         }
 
         .form-header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .form-header .subtitle {
-            font-style: italic;
-            font-size: 14px;
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 400;
         }
 
+        .form-content {
+            padding: 30px;
+        }
+
+        /* Contact Notice */
         .contact-notice {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 5px;
-            margin: 10px 0;
-            font-size: 11px;
+            gap: 12px;
+            font-size: 13px;
         }
 
-        /* Table Styles */
-        table {
+        .contact-notice input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Modern Table Styles */
+        .modern-table {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 24px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            background: white;
         }
 
-        td, th {
-            border: 1px solid #000;
-            padding: 4px;
-            vertical-align: middle;
+        .modern-table td, .modern-table th {
+            padding: 12px 16px;
+            border-right: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
         }
 
-        th {
-            background: #f0f0f0;
-            font-weight: bold;
-            text-align: left;
+        .modern-table td:last-child, .modern-table th:last-child {
+            border-right: none;
         }
 
-        /* Input Styles */
-        input[type="text"],
-        input[type="date"],
-        input[type="tel"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 3px 30px 3px 3px;
-            border: none;
-            background: transparent;
-            font-size: 11px;
+        .modern-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modern-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Voice Input Wrapper */
+        .voice-field {
             position: relative;
-        }
-
-        input[type="checkbox"] {
-            margin-right: 3px;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        /* Voice Input Container */
-        .voice-input-wrapper {
-            position: relative;
-            display: inline-block;
             width: 100%;
         }
 
-        /* Voice Button */
+        .voice-field input,
+        .voice-field textarea {
+            width: 100%;
+            padding: 10px 40px 10px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .voice-field input:focus,
+        .voice-field textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Modern Voice Button */
         .voice-btn {
             position: absolute;
-            right: 2px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            background: #2196F3;
+            width: 28px;
+            height: 28px;
             border: none;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            z-index: 10;
             transition: all 0.3s;
+            background: var(--gray-100);
+            color: var(--gray-500);
         }
 
         textarea ~ .voice-btn {
-            top: 5px;
+            top: 12px;
             transform: none;
         }
 
-        .voice-btn:hover {
-            background: #1976D2;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        textarea ~ .voice-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .voice-btn.recording {
-            background: #f44336;
-            animation: pulse 1.5s infinite;
+        .voice-btn:hover:not(:disabled) {
+            background: var(--gray-200);
+            color: var(--gray-700);
         }
 
         .voice-btn:disabled {
-            background: #ccc;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
+        /* Voice Button States */
+        .voice-btn.idle {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+
+        .voice-btn.listening {
+            background: var(--danger);
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-btn.captured {
+            background: var(--success);
+            color: white;
+        }
+
+        .voice-btn.error {
+            background: var(--warning);
+            color: white;
+        }
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(244, 67, 54, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        /* Mic Icon */
+        .mic-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Status Indicator */
+        .voice-status-indicator {
+            position: absolute;
+            right: -4px;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .voice-btn.listening .voice-status-indicator {
+            display: block;
+            background: var(--danger);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* Section Headers */
         .section-header {
-            background: #333;
+            background: linear-gradient(135deg, var(--gray-700) 0%, var(--gray-800) 100%);
             color: white;
-            padding: 5px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 12px;
+            padding: 10px 16px;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            margin-bottom: -1px;
         }
 
-        /* Layout Classes */
-        .row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .col-50 {
-            flex: 1;
-        }
-
-        .label {
-            font-weight: bold;
-            margin-right: 5px;
-            white-space: nowrap;
+        /* Input Styles */
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            margin-right: 6px;
         }
 
         /* Checkbox Groups */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            padding: 5px;
+            gap: 16px;
+            padding: 8px 0;
         }
 
         .checkbox-item {
             display: flex;
             align-items: center;
-            white-space: nowrap;
+            font-size: 13px;
         }
 
         /* Clinical Findings Box */
         .clinical-findings-box {
-            border: 1px solid #000;
-            padding: 10px;
-            margin: 10px 0;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 24px 0;
         }
 
-        .clinical-findings-box textarea {
-            width: 100%;
-            min-height: 150px;
-            border: none;
-            padding-right: 30px;
+        .clinical-findings-box .section-header {
+            margin: -20px -20px 16px -20px;
+            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         /* Prescription Table */
+        .prescription-section {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 24px 0;
+        }
+
         .prescription-table {
-            font-size: 10px;
+            width: 100%;
+            font-size: 12px;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
         }
 
         .prescription-table input {
+            width: 100%;
+            padding: 6px 30px 6px 8px;
+            border: 1px solid transparent;
+            background: transparent;
             text-align: center;
-            padding: 2px;
+            font-size: 12px;
         }
 
-        /* Footer */
-        .form-footer {
-            margin-top: 20px;
-            font-size: 10px;
-            text-align: center;
+        .prescription-table input:focus {
+            background: var(--gray-50);
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .prescription-table .voice-btn {
+            width: 24px;
+            height: 24px;
+            right: 4px;
+        }
+
+        .prescription-table .mic-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Referral Section */
+        .referral-section {
+            background: linear-gradient(to bottom, var(--gray-50), white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+            padding: 24px;
+            background: var(--gray-50);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-info {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #0891B2;
+        }
+
+        /* Voice Status Toast */
+        .voice-status {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--gray-800);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            display: none;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+            font-size: 14px;
+            max-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .voice-status.show {
+            display: block;
+        }
+
+        .voice-status.error {
+            background: var(--danger);
+        }
+
+        .voice-status.success {
+            background: var(--success);
+        }
+
+        /* Auto-save indicator */
+        .auto-save-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .auto-save-indicator.show {
+            opacity: 1;
+        }
+
+        /* Voice Help */
+        .voice-help {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border: 1px solid #BAE6FD;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .voice-help summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-700);
+            user-select: none;
+        }
+
+        .voice-help summary:hover {
+            color: var(--primary);
+        }
+
+        /* Storage Info */
+        .storage-info {
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+            border: 1px solid #BBF7D0;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .storage-info summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-700);
+            user-select: none;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--gray-700);
+            font-size: 13px;
         }
 
         /* Print Styles */
@@ -231,143 +533,76 @@
 
             .form-container {
                 box-shadow: none;
-                padding: 10px;
+                border-radius: 0;
             }
 
-            .voice-btn {
-                display: none !important;
-            }
-
+            .voice-btn,
             .no-print {
                 display: none !important;
             }
+
+            .form-header {
+                background: none;
+                color: black;
+                border-bottom: 2px solid black;
+            }
+
+            .action-buttons {
+                display: none;
+            }
         }
 
-        /* Small Input Fields */
-        .small-input {
-            width: 60px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-content {
+                padding: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
 
-        .medium-input {
-            width: 100px;
-        }
-
-        /* Prescription table specific voice buttons */
-        .prescription-table .voice-input-wrapper {
-            position: relative;
+        /* Loading Animation */
+        .loading {
             display: inline-block;
-            width: 100%;
-        }
-
-        .prescription-table .voice-btn {
-            width: 20px;
-            height: 20px;
-            right: 1px;
-            padding: 0;
-        }
-
-        .prescription-table .mic-icon {
-            width: 12px;
-            height: 12px;
-        }
-
-        .prescription-table input {
-            padding-right: 25px;
-        }
-
-        /* Referral Section */
-        .referral-section {
-            border: 2px solid #000;
-            padding: 10px;
-            margin: 10px 0;
-        }
-
-        /* Status Message */
-        .voice-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .voice-status.show {
-            display: block;
-        }
-
-        /* Auto-save indicator */
-        .auto-save-indicator {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
-        }
-
-        .auto-save-indicator.show {
-            opacity: 1;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 20px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: #2196F3;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1976D2;
-        }
-
-        .btn-success {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #45a049;
-        }
-
-        .btn-info {
-            background: #17a2b8;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background: #138496;
-        }
-
-        /* Mic Icon */
-        .mic-icon {
             width: 14px;
             height: 14px;
-            fill: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Label with required asterisk */
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        /* Smooth transitions */
+        input, textarea, select, button {
+            transition: all 0.2s ease;
+        }
+
+        /* Focus visible for accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -376,820 +611,935 @@
         <!-- Header -->
         <div class="form-header">
             <h1>GOS 18</h1>
-            <div class="subtitle">Referral / Notification <small>(Delete as appropriate)</small></div>
-            <!-- Voice Dictation Help -->
-        <details class="voice-help no-print" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border: 1px solid #dee2e6; font-size: 11px;">
-            <summary style="cursor: pointer; font-size: 14px; color: #495057; font-weight: bold;">🎤 Voice Dictation Tips for Medical Fields (click to expand)</summary>
-            <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <p style="margin: 5px 0; font-weight: bold;">Say this → Get this:</p>
-                    <ul style="margin: 5px 0; line-height: 1.8;">
-                        <li>"minus two point five" → <strong>-2.5</strong></li>
-                        <li>"plus one point seven five" → <strong>+1.75</strong></li>
-                        <li>"six over six" → <strong>6/6</strong></li>
-                        <li>"twenty over twenty" → <strong>20/20</strong></li>
-                        <li>"at ninety degrees" → <strong>@90°</strong></li>
-                    </ul>
-                </div>
-                <div>
-                    <p style="margin: 5px 0; font-weight: bold;">Supported conversions:</p>
-                    <ul style="margin: 5px 0; line-height: 1.8;">
-                        <li>"minus" or "negative" → <strong>-</strong></li>
-                        <li>"plus" or "positive" → <strong>+</strong></li>
-                        <li>"point" → <strong>.</strong> (decimal)</li>
-                        <li>"over" → <strong>/</strong> (fraction)</li>
-                        <li>Number words → digits (e.g., "six" → 6)</li>
-                    </ul>
-                </div>
-            </div>
-        </details>
-
-        <div class="contact-notice">
-            <input type="checkbox" id="contactNotice">
-            <label for="contactNotice">Please contact the patient if they do not contact you or do not attend</label>
+            <div class="subtitle">Referral / Notification Form</div>
         </div>
 
-        <!-- NHS Number and Date -->
-        <table>
-            <tr>
-                <td style="width: 30%;">
-                    <strong>NHS Number:</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="nhsNumber" name="nhsNumber">
-                        <button type="button" class="voice-btn" data-field="nhsNumber">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
+        <div class="form-content">
+            <!-- Voice Dictation Help -->
+            <details class="voice-help no-print">
+                <summary>🎤 Voice Dictation Tips for Medical Fields</summary>
+                <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <p style="margin: 8px 0; font-weight: 600;">Say this → Get this:</p>
+                        <ul style="margin: 8px 0 8px 20px; line-height: 1.8;">
+                            <li>"minus two point five" → <strong>-2.5</strong></li>
+                            <li>"plus one point seven five" → <strong>+1.75</strong></li>
+                            <li>"six over six" → <strong>6/6</strong></li>
+                            <li>"twenty over twenty" → <strong>20/20</strong></li>
+                            <li>"at ninety degrees" → <strong>@90°</strong></li>
+                        </ul>
                     </div>
-                </td>
-                <td style="width: 70%;">
-                    <strong>CONSULTATION DATE</strong> <small>(dd/mm/yyyy)</small>:
-                    <input type="date" id="consultationDate" name="consultationDate">
-                </td>
-            </tr>
-        </table>
+                    <div>
+                        <p style="margin: 8px 0; font-weight: 600;">Supported conversions:</p>
+                        <ul style="margin: 8px 0 8px 20px; line-height: 1.8;">
+                            <li>"minus" or "negative" → <strong>-</strong></li>
+                            <li>"plus" or "positive" → <strong>+</strong></li>
+                            <li>"point" → <strong>.</strong> (decimal)</li>
+                            <li>"over" → <strong>/</strong> (fraction)</li>
+                            <li>Number words → digits (e.g., "six" → 6)</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
 
-        <!-- Patient Details -->
-        <div class="section-header">Patient Details</div>
-        <table>
-            <tr>
-                <td style="width: 20%;">
-                    <strong>Title:</strong> <small>Mr/Mrs/Miss/Ms/Other</small>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="title" name="title">
-                        <button type="button" class="voice-btn" data-field="title">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td style="width: 20%;">
-                    <strong>DOB:</strong>
-                    <input type="date" id="dob" name="dob">
-                </td>
-                <td rowspan="4" style="width: 60%;">
-                    <strong>Address:</strong>
-                    <div class="voice-input-wrapper">
-                        <textarea id="address" name="address" rows="4"></textarea>
-                        <button type="button" class="voice-btn" data-field="address">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Surname:</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="surname" name="surname">
-                        <button type="button" class="voice-btn" data-field="surname">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <strong>Tel (H):</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="tel" id="telHome" name="telHome">
-                        <button type="button" class="voice-btn" data-field="telHome">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>First Names:</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="firstName" name="firstName">
-                        <button type="button" class="voice-btn" data-field="firstName">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <strong>Tel (M):</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="tel" id="telMobile" name="telMobile">
-                        <button type="button" class="voice-btn" data-field="telMobile">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <strong>Other:</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="other" name="other">
-                        <button type="button" class="voice-btn" data-field="other">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <strong>Post Code:</strong>
-                    <div class="voice-input-wrapper" style="width: 150px; display: inline-block;">
-                        <input type="text" id="postcode" name="postcode">
-                        <button type="button" class="voice-btn" data-field="postcode">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-        <!-- GP and Optometrist Details -->
-        <table>
-            <tr>
-                <td colspan="2" class="section-header">GP Details</td>
-                <td colspan="2" class="section-header">Optometrist Details</td>
-            </tr>
-            <tr>
-                <td style="width: 15%;"><strong>Name<br>Address</strong></td>
-                <td style="width: 35%;">
-                    <div class="voice-input-wrapper">
-                        <textarea id="gpDetails" name="gpDetails" rows="3"></textarea>
-                        <button type="button" class="voice-btn" data-field="gpDetails">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td style="width: 15%;"><strong>Name<br>Address</strong></td>
-                <td style="width: 35%;">
-                    <div class="voice-input-wrapper">
-                        <textarea id="optometristDetails" name="optometristDetails" rows="3"></textarea>
-                        <button type="button" class="voice-btn" data-field="optometristDetails">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>E.Mail:</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="email" id="gpEmail" name="gpEmail">
-                        <button type="button" class="voice-btn" data-field="gpEmail">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td><strong>E.Mail:</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="email" id="optEmail" name="optEmail">
-                        <button type="button" class="voice-btn" data-field="optEmail">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Tel:</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="tel" id="gpTel" name="gpTel">
-                        <button type="button" class="voice-btn" data-field="gpTel">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td><strong>Tel:</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="tel" id="optTel" name="optTel">
-                        <button type="button" class="voice-btn" data-field="optTel">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Latest Spectacle Prescription -->
-        <div class="section-header">Latest Spectacle Prescription</div>
-        <table class="prescription-table">
-            <tr>
-                <th>Rx</th>
-                <th>Vision</th>
-                <th>Sph</th>
-                <th>Cyl</th>
-                <th>Axis</th>
-                <th>VA</th>
-                <th>Dist. Prism PH Acuity</th>
-                <th>Add</th>
-                <th>Nr. Prism</th>
-                <th colspan="2">Near VA</th>
-            </tr>
-            <tr>
-                <td><strong>RE</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reVision" id="reVision" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reVision" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reSph" id="reSph" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reSph" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reCyl" id="reCyl" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reCyl" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reAxis" id="reAxis" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reAxis" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reVA" id="reVA" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reVA" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reDistPrism" id="reDistPrism" class="medium-input">
-                        <button type="button" class="voice-btn" data-field="reDistPrism" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reAdd" id="reAdd" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reAdd" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="reNrPrism" id="reNrPrism" class="small-input">
-                        <button type="button" class="voice-btn" data-field="reNrPrism" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>@</td>
-                <td>cm</td>
-            </tr>
-            <tr>
-                <td><strong>LE</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leVision" id="leVision" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leVision" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leSph" id="leSph" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leSph" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leCyl" id="leCyl" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leCyl" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leAxis" id="leAxis" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leAxis" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leVA" id="leVA" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leVA" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leDistPrism" id="leDistPrism" class="medium-input">
-                        <button type="button" class="voice-btn" data-field="leDistPrism" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leAdd" id="leAdd" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leAdd" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="leNrPrism" id="leNrPrism" class="small-input">
-                        <button type="button" class="voice-btn" data-field="leNrPrism" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td>@</td>
-                <td>cm</td>
-            </tr>
-        </table>
-
-        <!-- Additional Clinical Data -->
-        <table>
-            <tr>
-                <td rowspan="2" style="width: 20%;">
-                    <strong>Mydriasis</strong><br>
-                    <input type="checkbox" name="mydriasisY" id="mydriasisY"> <label for="mydriasisY">Y</label>
-                    <input type="checkbox" name="mydriasisN" id="mydriasisN"> <label for="mydriasisN">N</label>
-                </td>
-                <td colspan="5" class="section-header">Intraocular Pressure (IOP)</td>
-                <td style="width: 25%;">
-                    <input type="checkbox" name="contact" id="contact"> <label for="contact">Contact</label>
-                    <input type="checkbox" name="nonContact" id="nonContact"> <label for="nonContact">Non-Contact</label>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 8%;"><strong>RE:</strong></td>
-                <td style="width: 12%;">
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="iopRE" id="iopRE" class="small-input">
-                        <button type="button" class="voice-btn" data-field="iopRE" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td style="width: 8%;"><strong>LE:</strong></td>
-                <td style="width: 12%;">
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="iopLE" id="iopLE" class="small-input">
-                        <button type="button" class="voice-btn" data-field="iopLE" data-medical="true">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td style="width: 10%;"><strong>Time:</strong></td>
-                <td>
-                    <div class="voice-input-wrapper">
-                        <input type="text" name="iopTime" id="iopTime" class="medium-input">
-                        <button type="button" class="voice-btn" data-field="iopTime">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Visual Fields and Imaging -->
-        <table>
-            <tr>
-                <td style="width: 15%;"><strong>V.Fields</strong></td>
-                <td style="width: 10%;"><strong>RE:</strong></td>
-                <td style="width: 25%;">
-                    <input type="checkbox" name="vfREAttached" id="vfREAttached"> <label for="vfREAttached">Attached</label>
-                </td>
-                <td style="width: 15%;"><strong>Imaging</strong></td>
-                <td style="width: 10%;"><strong>RE:</strong></td>
-                <td style="width: 25%;">
-                    <input type="checkbox" name="imgREAttached" id="imgREAttached"> <label for="imgREAttached">Attached</label>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Method:</strong></td>
-                <td><strong>LE:</strong></td>
-                <td>
-                    <input type="checkbox" name="vfLEAttached" id="vfLEAttached"> <label for="vfLEAttached">Attached</label>
-                </td>
-                <td><strong>Method:</strong></td>
-                <td><strong>LE:</strong></td>
-                <td>
-                    <input type="checkbox" name="imgLEAttached" id="imgLEAttached"> <label for="imgLEAttached">Attached</label>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Clinical Findings -->
-        <div class="clinical-findings-box">
-            <div class="section-header">Salient Symptoms, Signs, History, Clinical Findings, Reason for Referral and Provisional Diagnosis</div>
-            <div class="voice-input-wrapper">
-                <textarea id="clinicalFindings" name="clinicalFindings" rows="8"></textarea>
-                <button type="button" class="voice-btn" data-field="clinicalFindings">
-                    <svg class="mic-icon" viewBox="0 0 24 24">
-                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                    </svg>
-                </button>
+            <div class="contact-notice">
+                <input type="checkbox" id="contactNotice">
+                <label for="contactNotice">Please contact the patient if they do not contact you or do not attend</label>
             </div>
-            <div style="text-align: center; margin-top: 10px;">
-                <strong>Provisional Diagnosis:</strong>
-                <div class="voice-input-wrapper" style="display: inline-block; width: 400px;">
-                    <input type="text" id="provisionalDiagnosis" name="provisionalDiagnosis" style="text-align: center;">
-                    <button type="button" class="voice-btn" data-field="provisionalDiagnosis">
+
+            <!-- NHS Number and Date -->
+            <table class="modern-table">
+                <tr>
+                    <td style="width: 35%;">
+                        <strong>NHS Number</strong>
+                        <div class="voice-field">
+                            <input type="text" id="nhsNumber" name="nhsNumber" placeholder="Enter NHS number">
+                            <button type="button" class="voice-btn idle" data-field="nhsNumber">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 65%;">
+                        <strong>Consultation Date</strong>
+                        <div class="voice-field">
+                            <input type="date" id="consultationDate" name="consultationDate">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Patient Details Section -->
+            <div style="margin-top: 24px;">
+                <div class="section-header">Patient Details</div>
+                <table class="modern-table" style="margin-top: 0; border-radius: 0 0 var(--radius) var(--radius);">
+                    <tr>
+                        <td style="width: 25%;">
+                            <strong>Title</strong>
+                            <div class="voice-field">
+                                <input type="text" id="title" name="title" placeholder="Mr/Mrs/Miss/Ms/Other">
+                                <button type="button" class="voice-btn idle" data-field="title">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td style="width: 25%;">
+                            <strong>Date of Birth</strong>
+                            <div class="voice-field">
+                                <input type="date" id="dob" name="dob">
+                            </div>
+                        </td>
+                        <td rowspan="4" style="width: 50%;">
+                            <strong>Address</strong>
+                            <div class="voice-field">
+                                <textarea id="address" name="address" rows="5" placeholder="Enter full address"></textarea>
+                                <button type="button" class="voice-btn idle" data-field="address">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Surname</strong>
+                            <div class="voice-field">
+                                <input type="text" id="surname" name="surname" placeholder="Enter surname">
+                                <button type="button" class="voice-btn idle" data-field="surname">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>Tel (Home)</strong>
+                            <div class="voice-field">
+                                <input type="tel" id="telHome" name="telHome" placeholder="Home phone">
+                                <button type="button" class="voice-btn idle" data-field="telHome">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>First Names</strong>
+                            <div class="voice-field">
+                                <input type="text" id="firstName" name="firstName" placeholder="Enter first names">
+                                <button type="button" class="voice-btn idle" data-field="firstName">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>Tel (Mobile)</strong>
+                            <div class="voice-field">
+                                <input type="tel" id="telMobile" name="telMobile" placeholder="Mobile phone">
+                                <button type="button" class="voice-btn idle" data-field="telMobile">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <strong>Other Information</strong>
+                            <div class="voice-field">
+                                <input type="text" id="other" name="other" placeholder="Any other information">
+                                <button type="button" class="voice-btn idle" data-field="other">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Post Code</strong>
+                            <div class="voice-field" style="max-width: 200px;">
+                                <input type="text" id="postcode" name="postcode" placeholder="Post code">
+                                <button type="button" class="voice-btn idle" data-field="postcode">
+                                    <svg class="mic-icon" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                    </svg>
+                                    <span class="voice-status-indicator"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- GP and Optometrist Details -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px;">
+                <div>
+                    <div class="section-header">GP Details</div>
+                    <table class="modern-table" style="margin-top: 0; border-radius: 0 0 var(--radius) var(--radius);">
+                        <tr>
+                            <td>
+                                <strong>Name & Address</strong>
+                                <div class="voice-field">
+                                    <textarea id="gpDetails" name="gpDetails" rows="3" placeholder="GP name and address"></textarea>
+                                    <button type="button" class="voice-btn idle" data-field="gpDetails">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Email</strong>
+                                <div class="voice-field">
+                                    <input type="email" id="gpEmail" name="gpEmail" placeholder="GP email address">
+                                    <button type="button" class="voice-btn idle" data-field="gpEmail">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Telephone</strong>
+                                <div class="voice-field">
+                                    <input type="tel" id="gpTel" name="gpTel" placeholder="GP phone number">
+                                    <button type="button" class="voice-btn idle" data-field="gpTel">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div>
+                    <div class="section-header">Optometrist Details</div>
+                    <table class="modern-table" style="margin-top: 0; border-radius: 0 0 var(--radius) var(--radius);">
+                        <tr>
+                            <td>
+                                <strong>Name & Address</strong>
+                                <div class="voice-field">
+                                    <textarea id="optometristDetails" name="optometristDetails" rows="3" placeholder="Optometrist name and address"></textarea>
+                                    <button type="button" class="voice-btn idle" data-field="optometristDetails">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Email</strong>
+                                <div class="voice-field">
+                                    <input type="email" id="optEmail" name="optEmail" placeholder="Optometrist email address">
+                                    <button type="button" class="voice-btn idle" data-field="optEmail">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Telephone</strong>
+                                <div class="voice-field">
+                                    <input type="tel" id="optTel" name="optTel" placeholder="Optometrist phone number">
+                                    <button type="button" class="voice-btn idle" data-field="optTel">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Latest Spectacle Prescription -->
+            <div class="prescription-section">
+                <div class="section-header" style="margin: -20px -20px 16px -20px;">Latest Spectacle Prescription</div>
+                <table class="prescription-table">
+                    <thead>
+                        <tr>
+                            <th>Rx</th>
+                            <th>Vision</th>
+                            <th>Sph</th>
+                            <th>Cyl</th>
+                            <th>Axis</th>
+                            <th>VA</th>
+                            <th>Dist. Prism</th>
+                            <th>Add</th>
+                            <th>Nr. Prism</th>
+                            <th colspan="2">Near VA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 600;">RE</td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reVision" id="reVision">
+                                    <button type="button" class="voice-btn idle" data-field="reVision" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reSph" id="reSph">
+                                    <button type="button" class="voice-btn idle" data-field="reSph" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reCyl" id="reCyl">
+                                    <button type="button" class="voice-btn idle" data-field="reCyl" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reAxis" id="reAxis">
+                                    <button type="button" class="voice-btn idle" data-field="reAxis" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reVA" id="reVA">
+                                    <button type="button" class="voice-btn idle" data-field="reVA" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reDistPrism" id="reDistPrism">
+                                    <button type="button" class="voice-btn idle" data-field="reDistPrism" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reAdd" id="reAdd">
+                                    <button type="button" class="voice-btn idle" data-field="reAdd" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="reNrPrism" id="reNrPrism">
+                                    <button type="button" class="voice-btn idle" data-field="reNrPrism" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td style="text-align: center;">@</td>
+                            <td style="text-align: center;">cm</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">LE</td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leVision" id="leVision">
+                                    <button type="button" class="voice-btn idle" data-field="leVision" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leSph" id="leSph">
+                                    <button type="button" class="voice-btn idle" data-field="leSph" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leCyl" id="leCyl">
+                                    <button type="button" class="voice-btn idle" data-field="leCyl" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leAxis" id="leAxis">
+                                    <button type="button" class="voice-btn idle" data-field="leAxis" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leVA" id="leVA">
+                                    <button type="button" class="voice-btn idle" data-field="leVA" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leDistPrism" id="leDistPrism">
+                                    <button type="button" class="voice-btn idle" data-field="leDistPrism" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leAdd" id="leAdd">
+                                    <button type="button" class="voice-btn idle" data-field="leAdd" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="voice-field">
+                                    <input type="text" name="leNrPrism" id="leNrPrism">
+                                    <button type="button" class="voice-btn idle" data-field="leNrPrism" data-medical="true">
+                                        <svg class="mic-icon" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="voice-status-indicator"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td style="text-align: center;">@</td>
+                            <td style="text-align: center;">cm</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Additional Clinical Data -->
+            <table class="modern-table">
+                <tr>
+                    <td rowspan="2" style="width: 20%;">
+                        <strong>Mydriasis</strong>
+                        <div style="margin-top: 8px;">
+                            <label style="display: inline-flex; align-items: center; margin-right: 16px;">
+                                <input type="checkbox" name="mydriasisY" id="mydriasisY">
+                                <span>Yes</span>
+                            </label>
+                            <label style="display: inline-flex; align-items: center;">
+                                <input type="checkbox" name="mydriasisN" id="mydriasisN">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td colspan="5" class="section-header">Intraocular Pressure (IOP)</td>
+                    <td style="width: 30%;">
+                        <label style="display: inline-flex; align-items: center; margin-right: 16px;">
+                            <input type="checkbox" name="contact" id="contact">
+                            <span>Contact</span>
+                        </label>
+                        <label style="display: inline-flex; align-items: center;">
+                            <input type="checkbox" name="nonContact" id="nonContact">
+                            <span>Non-Contact</span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 8%;"><strong>RE:</strong></td>
+                    <td style="width: 15%;">
+                        <div class="voice-field">
+                            <input type="text" name="iopRE" id="iopRE" placeholder="mmHg">
+                            <button type="button" class="voice-btn idle" data-field="iopRE" data-medical="true">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 8%;"><strong>LE:</strong></td>
+                    <td style="width: 15%;">
+                        <div class="voice-field">
+                            <input type="text" name="iopLE" id="iopLE" placeholder="mmHg">
+                            <button type="button" class="voice-btn idle" data-field="iopLE" data-medical="true">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 10%;"><strong>Time:</strong></td>
+                    <td>
+                        <div class="voice-field">
+                            <input type="text" name="iopTime" id="iopTime" placeholder="HH:MM">
+                            <button type="button" class="voice-btn idle" data-field="iopTime">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Visual Fields and Imaging -->
+            <table class="modern-table">
+                <tr>
+                    <td style="width: 15%;"><strong>V.Fields</strong></td>
+                    <td style="width: 10%;"><strong>RE:</strong></td>
+                    <td style="width: 25%;">
+                        <input type="checkbox" name="vfREAttached" id="vfREAttached">
+                        <label for="vfREAttached">Attached</label>
+                    </td>
+                    <td style="width: 15%;"><strong>Imaging</strong></td>
+                    <td style="width: 10%;"><strong>RE:</strong></td>
+                    <td style="width: 25%;">
+                        <input type="checkbox" name="imgREAttached" id="imgREAttached">
+                        <label for="imgREAttached">Attached</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Method:</strong></td>
+                    <td><strong>LE:</strong></td>
+                    <td>
+                        <input type="checkbox" name="vfLEAttached" id="vfLEAttached">
+                        <label for="vfLEAttached">Attached</label>
+                    </td>
+                    <td><strong>Method:</strong></td>
+                    <td><strong>LE:</strong></td>
+                    <td>
+                        <input type="checkbox" name="imgLEAttached" id="imgLEAttached">
+                        <label for="imgLEAttached">Attached</label>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Clinical Findings -->
+            <div class="clinical-findings-box">
+                <div class="section-header">Salient Symptoms, Signs, History, Clinical Findings, Reason for Referral and Provisional Diagnosis</div>
+                <div class="voice-field">
+                    <textarea id="clinicalFindings" name="clinicalFindings" rows="8" placeholder="Enter detailed clinical findings..."></textarea>
+                    <button type="button" class="voice-btn idle" data-field="clinicalFindings">
                         <svg class="mic-icon" viewBox="0 0 24 24">
                             <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
                             <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
                         </svg>
+                        <span class="voice-status-indicator"></span>
                     </button>
                 </div>
+                <div style="margin-top: 16px;">
+                    <strong>Provisional Diagnosis:</strong>
+                    <div class="voice-field" style="margin-top: 8px;">
+                        <input type="text" id="provisionalDiagnosis" name="provisionalDiagnosis" placeholder="Enter provisional diagnosis">
+                        <button type="button" class="voice-btn idle" data-field="provisionalDiagnosis">
+                            <svg class="mic-icon" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span class="voice-status-indicator"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Consent Statement -->
-        <div style="margin: 10px 0; font-size: 10px;">
-            I agree that any practitioner to whom I am referred for medical consultation and or treatment may make any information relevant to my eye condition and its treatment available to my optometrist. 
-            Signed ........................................ Date .................................
-        </div>
+            <!-- Consent Statement -->
+            <div style="margin: 20px 0; padding: 16px; background: var(--gray-50); border-radius: var(--radius); font-size: 13px;">
+                I agree that any practitioner to whom I am referred for medical consultation and or treatment may make any information relevant to my eye condition and its treatment available to my optometrist. 
+                <div style="margin-top: 12px;">
+                    Signed ........................................ Date .................................
+                </div>
+            </div>
 
-        <!-- Referral Section -->
-        <div class="referral-section">
-            <table>
+            <!-- Referral Section -->
+            <div class="referral-section">
+                <table style="width: 100%; border: none;">
+                    <tr>
+                        <td rowspan="2" style="width: 20%; vertical-align: top; border: none; padding-top: 0;">
+                            <strong style="font-size: 16px; color: var(--gray-700);">Referral</strong>
+                        </td>
+                        <td style="border: none;">
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="refHES" id="refHES">
+                                    <label for="refHES">HES</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="refOcularEmergency" id="refOcularEmergency">
+                                    <label for="refOcularEmergency">Ocular Emergency - to Hospital A&E Eye Service</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="refUrgent" id="refUrgent">
+                                    <label for="refUrgent">Urgent - to HES within 1 week</label>
+                                </div>
+                            </div>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="refSoon" id="refSoon">
+                                    <label for="refSoon">Soon - to HES within 4 weeks</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="refRoutine" id="refRoutine">
+                                    <label for="refRoutine">Routine - to HES within 12 weeks</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none;">
+                            <strong style="display: block; margin: 16px 0 8px 0;">Suggested Clinic Type</strong>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicCataract" id="clinicCataract">
+                                    <label for="clinicCataract">Cataract</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicLowVision" id="clinicLowVision">
+                                    <label for="clinicLowVision">Low Vision</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicOtherMedRetina" id="clinicOtherMedRetina">
+                                    <label for="clinicOtherMedRetina">Other Medical Retina</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicPaedGeneral" id="clinicPaedGeneral">
+                                    <label for="clinicPaedGeneral">Paed. General Ophth</label>
+                                </div>
+                            </div>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicCornea" id="clinicCornea">
+                                    <label for="clinicCornea">Cornea & Ant. Seg.</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicMacula" id="clinicMacula">
+                                    <label for="clinicMacula">Macula</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicSquint" id="clinicSquint">
+                                    <label for="clinicSquint">Squint/Ocular Motility</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicPaedOrthoptics" id="clinicPaedOrthoptics">
+                                    <label for="clinicPaedOrthoptics">Paed. Orthoptics</label>
+                                </div>
+                            </div>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicDiabetic" id="clinicDiabetic">
+                                    <label for="clinicDiabetic">Diab. Medical Retina</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicOncology" id="clinicOncology">
+                                    <label for="clinicOncology">Oncology (Diagnosed)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicVitreoRetinal" id="clinicVitreoRetinal">
+                                    <label for="clinicVitreoRetinal">Vitreo-Retinal</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicGeneralOphth" id="clinicGeneralOphth">
+                                    <label for="clinicGeneralOphth">General Ophthalmology</label>
+                                </div>
+                            </div>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicExternalEye" id="clinicExternalEye">
+                                    <label for="clinicExternalEye">External Eye/Adnexa</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicOculoplastics" id="clinicOculoplastics">
+                                    <label for="clinicOculoplastics">Oculoplastics/Orb./Lacr</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicGlaucoma" id="clinicGlaucoma">
+                                    <label for="clinicGlaucoma">Glaucoma/OHT</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="clinicOrthoptics" id="clinicOrthoptics">
+                                    <label for="clinicOrthoptics">Orthoptics</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- GP Referral -->
+            <table class="modern-table">
                 <tr>
-                    <td rowspan="2" style="width: 20%; vertical-align: top;">
-                        <strong style="font-style: italic;">Referral</strong>
-                    </td>
+                    <td style="width: 20%;"><strong>Referral</strong></td>
                     <td>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input type="checkbox" name="refHES" id="refHES">
-                                <label for="refHES">HES</label>
+                                <input type="checkbox" name="refGP" id="refGP">
+                                <label for="refGP"><strong>GP</strong></label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="refOcularEmergency" id="refOcularEmergency">
-                                <label for="refOcularEmergency">Ocular Emergency - to Hospital A&E Eye Service</label>
+                                <input type="checkbox" name="refReview" id="refReview">
+                                <label for="refReview">For Review and management/refer as appropriate</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="refUrgent" id="refUrgent">
-                                <label for="refUrgent">Urgent - to HES within 1 week</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="refSoon" id="refSoon">
-                                <label for="refSoon">Soon - to HES within 4 weeks</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="refRoutine" id="refRoutine">
-                                <label for="refRoutine">Routine - to HES within 12 weeks</label>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <strong>Suggested Clinic Type</strong>
-                        <div class="checkbox-group" style="margin-top: 5px;">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicCataract" id="clinicCataract">
-                                <label for="clinicCataract">Cataract</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicLowVision" id="clinicLowVision">
-                                <label for="clinicLowVision">Low Vison</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicOtherMedRetina" id="clinicOtherMedRetina">
-                                <label for="clinicOtherMedRetina">Other Medical Retina</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicPaedGeneral" id="clinicPaedGeneral">
-                                <label for="clinicPaedGeneral">Paed. General Ophth</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicCornea" id="clinicCornea">
-                                <label for="clinicCornea">Cornea & Ant. Seg.</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicMacula" id="clinicMacula">
-                                <label for="clinicMacula">Macula</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicSquint" id="clinicSquint">
-                                <label for="clinicSquint">Squint/Ocular Motility</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicPaedOrthoptics" id="clinicPaedOrthoptics">
-                                <label for="clinicPaedOrthoptics">Paed. Orthoptics</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicDiabetic" id="clinicDiabetic">
-                                <label for="clinicDiabetic">Diab. Medical Retina</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicOncology" id="clinicOncology">
-                                <label for="clinicOncology">Oncology (Diagnosed)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicVitreoRetinal" id="clinicVitreoRetinal">
-                                <label for="clinicVitreoRetinal">Vitreo-Retinal</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicGeneralOphth" id="clinicGeneralOphth">
-                                <label for="clinicGeneralOphth">General Ophthalmology</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicExternalEye" id="clinicExternalEye">
-                                <label for="clinicExternalEye">External Eye/Adnexa</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicOculoplastics" id="clinicOculoplastics">
-                                <label for="clinicOculoplastics">Oculoplastics/Orb./Lacr</label>
-                            </div>
-                            <div style="display: inline;">
-                                <label style="margin-left: 10px;">(Not otherwise specified)</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicGlaucoma" id="clinicGlaucoma">
-                                <label for="clinicGlaucoma">Glaucoma/OHT</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="clinicOrthoptics" id="clinicOrthoptics">
-                                <label for="clinicOrthoptics">Orthoptics</label>
+                                <input type="checkbox" name="refNotification" id="refNotification">
+                                <label for="refNotification" style="font-style: italic;">Notification Only</label>
                             </div>
                         </div>
                     </td>
                 </tr>
             </table>
-        </div>
 
-        <!-- GP Referral -->
-        <table style="margin-top: 10px;">
-            <tr>
-                <td style="width: 20%; font-style: italic;"><strong>Referral</strong></td>
-                <td>
-                    <input type="checkbox" name="refGP" id="refGP">
-                    <label for="refGP"><strong>GP</strong></label>
-                    <input type="checkbox" name="refReview" id="refReview">
-                    <label for="refReview">For Review and management/refer as appropriate</label>
-                    <input type="checkbox" name="refNotification" id="refNotification">
-                    <label for="refNotification" style="font-style: italic;">Notification Only</label>
-                </td>
-            </tr>
-        </table>
+            <!-- Optometrist Details -->
+            <table class="modern-table">
+                <tr>
+                    <td style="width: 25%;">
+                        <strong>Optometrist Name</strong>
+                        <div class="voice-field">
+                            <input type="text" id="optometristName" name="optometristName" placeholder="Your name">
+                            <button type="button" class="voice-btn idle" data-field="optometristName">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 25%;">
+                        <strong>Signature</strong>
+                        <div style="margin-top: 20px; border-bottom: 1px solid var(--gray-300);"></div>
+                    </td>
+                    <td style="width: 25%;">
+                        <strong>Date</strong>
+                        <div class="voice-field">
+                            <input type="date" id="signDate" name="signDate">
+                        </div>
+                    </td>
+                    <td style="width: 25%;">
+                        <strong>GOC No: 01-</strong>
+                        <div class="voice-field" style="display: inline-block; width: 120px;">
+                            <input type="text" id="gocNumber" name="gocNumber" placeholder="00000">
+                            <button type="button" class="voice-btn idle" data-field="gocNumber">
+                                <svg class="mic-icon" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <span class="voice-status-indicator"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
-        <!-- Optometrist Details -->
-        <table style="margin-top: 10px;">
-            <tr>
-                <td style="width: 25%;">
-                    <strong>Optometrist Name:</strong>
-                    <div class="voice-input-wrapper">
-                        <input type="text" id="optometristName" name="optometristName">
-                        <button type="button" class="voice-btn" data-field="optometristName">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-                <td style="width: 25%;">
-                    <strong>Signature</strong>
-                </td>
-                <td style="width: 25%;">
-                    <strong>Date:</strong>
-                    <input type="date" id="signDate" name="signDate">
-                </td>
-                <td style="width: 25%;">
-                    <strong>GOC No: 01-</strong>
-                    <div class="voice-input-wrapper" style="display: inline-block; width: 100px;">
-                        <input type="text" id="gocNumber" name="gocNumber">
-                        <button type="button" class="voice-btn" data-field="gocNumber">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <strong>#</strong>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Footer -->
-        <div class="form-footer">
-            <p>Please obtain consent from the patient if not already given, and provide feedback to the referring optometrist</p>
-            <div style="margin-top: 10px;">
-                Referral Letter:
-                <input type="checkbox" name="letterPatient" id="letterPatient">
-                <label for="letterPatient">Patient Copy</label>
-                <input type="checkbox" name="letterPosted" id="letterPosted">
-                <label for="letterPosted">Posted to GP</label>
-                <input type="checkbox" name="letterHanded" id="letterHanded">
-                <label for="letterHanded">Handed to Px to take to GP/HES</label>
-                <input type="checkbox" name="letterFaxed" id="letterFaxed">
-                <label for="letterFaxed">Faxed to HES</label>
+            <!-- Footer -->
+            <div style="text-align: center; margin-top: 24px; padding: 16px; background: var(--gray-50); border-radius: var(--radius); font-size: 12px;">
+                <p style="font-weight: 500;">Please obtain consent from the patient if not already given, and provide feedback to the referring optometrist</p>
+                <div style="margin-top: 12px;">
+                    <span style="font-weight: 500;">Referral Letter:</span>
+                    <label style="margin-left: 16px;">
+                        <input type="checkbox" name="letterPatient" id="letterPatient">
+                        Patient Copy
+                    </label>
+                    <label style="margin-left: 16px;">
+                        <input type="checkbox" name="letterPosted" id="letterPosted">
+                        Posted to GP
+                    </label>
+                    <label style="margin-left: 16px;">
+                        <input type="checkbox" name="letterHanded" id="letterHanded">
+                        Handed to Px to take to GP/HES
+                    </label>
+                    <label style="margin-left: 16px;">
+                        <input type="checkbox" name="letterFaxed" id="letterFaxed">
+                        Faxed to HES
+                    </label>
+                </div>
             </div>
-            <p style="margin-top: 10px;">DGOS18 Unshaded Excel.xlsx</p>
+
+            <!-- Storage Info -->
+            <details class="storage-info no-print">
+                <summary>💾 Data Storage Information</summary>
+                <div style="margin-top: 16px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <p style="margin: 8px 0;"><strong>Where is your data saved?</strong></p>
+                            <ul style="margin: 8px 0 16px 20px; line-height: 1.8;">
+                                <li>Data saved in browser's local storage</li>
+                                <li>Persists between sessions</li>
+                                <li>Completely private - no server storage</li>
+                                <li>Device & browser specific</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 16px; border-radius: var(--radius); border: 1px solid var(--gray-200);">
+                            <p style="margin: 8px 0;"><strong>Storage Status:</strong></p>
+                            <p style="margin: 8px 0; font-size: 13px; color: var(--gray-600);" id="storageStatus">Checking...</p>
+                            <p style="margin: 12px 0 8px 0;"><strong>Auto-Save:</strong> <span style="color: var(--success);">✓ Enabled</span></p>
+                            <p style="margin: 8px 0;"><strong>Last Saved:</strong></p>
+                            <p style="margin: 8px 0; font-size: 13px; color: var(--primary);" id="lastSaveTime">Not saved yet</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button type="button" onclick="clearAllData()" style="background: var(--danger); color: white; border: none; padding: 8px 16px; border-radius: var(--radius); font-size: 12px; cursor: pointer; font-weight: 500;">
+                            🗑️ Clear All Data
+                        </button>
+                        <span style="margin-left: 12px; color: var(--gray-500); font-size: 11px;">⚠️ This action cannot be undone</span>
+                    </div>
+                </div>
+            </details>
         </div>
 
         <!-- Action Buttons -->
         <div class="action-buttons no-print">
-            <button type="button" class="btn btn-primary" onclick="saveForm(true)">Save Form</button>
-            <button type="button" class="btn btn-success" onclick="window.print()">Print Form</button>
-            <button type="button" class="btn btn-info" onclick="emailForm()">📧 Email Form</button>
+            <button type="button" class="btn btn-primary" onclick="saveForm(true)">
+                <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                    <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                </svg>
+                Save Form
+            </button>
+            <button type="button" class="btn btn-success" onclick="window.print()">
+                <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                    <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+                </svg>
+                Print Form
+            </button>
+            <button type="button" class="btn btn-info" onclick="emailForm()">
+                <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                Email Form
+            </button>
         </div>
-        
-        <!-- Storage Info -->
-        <details class="storage-info no-print" style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; border: 1px solid #bee5eb; font-size: 11px;">
-            <summary style="cursor: pointer; font-size: 14px; color: #0c5460; font-weight: bold;">💾 Data Storage Information (click to expand)</summary>
-            <div style="margin-top: 10px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <p style="margin: 5px 0;"><strong>Where is your data saved?</strong></p>
-                        <ul style="margin: 5px 0 10px 20px; line-height: 1.6;">
-                            <li>Data saved in browser's local storage</li>
-                            <li>Persists between sessions</li>
-                            <li>Completely private - no server storage</li>
-                            <li>Device & browser specific</li>
-                        </ul>
-                    </div>
-                    <div style="background: white; padding: 10px; border-radius: 4px;">
-                        <p style="margin: 5px 0;"><strong>Storage Status:</strong></p>
-                        <p style="margin: 5px 0; font-size: 13px;" id="storageStatus">Checking...</p>
-                        <p style="margin: 10px 0 5px 0;"><strong>Auto-Save:</strong> <span style="color: #28a745;">✓ Enabled</span></p>
-                        <p style="margin: 5px 0;"><strong>Last Saved:</strong></p>
-                        <p style="margin: 5px 0; font-size: 13px; color: #0c5460;" id="lastSaveTime">Not saved yet</p>
-                    </div>
-                </div>
-                <div style="margin-top: 15px; text-align: center;">
-                    <button type="button" onclick="clearAllData()" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer;">
-                        🗑️ Clear All Data
-                    </button>
-                    <span style="margin-left: 10px; color: #6c757d; font-size: 10px;">⚠️ This action cannot be undone</span>
-                </div>
-            </div>
-        </details>
     </div>
 
     <!-- Voice Status Message -->
     <div id="voiceStatus" class="voice-status"></div>
     
     <!-- Auto-save Indicator -->
-    <div id="autoSaveIndicator" class="auto-save-indicator">Auto-saving...</div>
+    <div id="autoSaveIndicator" class="auto-save-indicator">✓ Auto-saved</div>
 
     <script>
-        // Voice Dictation Handler
+        // Voice Dictation Handler with Enhanced UI States
         class VoiceDictation {
             constructor() {
                 this.recognition = null;
                 this.isListening = false;
                 this.currentField = null;
+                this.currentButton = null;
                 this.setupRecognition();
                 this.attachEventListeners();
             }
@@ -1210,7 +1560,7 @@
 
                 this.recognition.onstart = () => {
                     this.isListening = true;
-                    this.updateUI('listening');
+                    this.updateButtonState('listening');
                     this.showStatus('Listening... Speak clearly');
                 };
 
@@ -1222,29 +1572,40 @@
 
                     if (this.currentField && event.results[event.results.length - 1].isFinal) {
                         const field = document.getElementById(this.currentField);
-                        const button = document.querySelector(`[data-field="${this.currentField}"]`);
                         
                         if (field) {
                             // Check if this is a medical field that needs conversion
-                            if (button && button.getAttribute('data-medical') === 'true') {
+                            if (this.currentButton && this.currentButton.getAttribute('data-medical') === 'true') {
                                 transcript = this.convertMedicalNotation(transcript);
                             }
                             
                             const currentValue = field.value;
                             field.value = currentValue + (currentValue ? ' ' : '') + transcript;
+                            
+                            // Flash captured state
+                            this.updateButtonState('captured');
+                            setTimeout(() => {
+                                if (this.isListening) {
+                                    this.updateButtonState('listening');
+                                }
+                            }, 1000);
                         }
                     }
                 };
 
                 this.recognition.onerror = (event) => {
                     console.error('Speech recognition error:', event.error);
+                    this.updateButtonState('error');
                     this.showStatus(`Error: ${event.error}`, 'error');
+                    setTimeout(() => {
+                        this.updateButtonState('idle');
+                    }, 2000);
                     this.stop();
                 };
 
                 this.recognition.onend = () => {
                     this.isListening = false;
-                    this.updateUI('idle');
+                    this.updateButtonState('idle');
                 };
 
                 // Auto-stop after 5 seconds of silence
@@ -1252,7 +1613,7 @@
                     setTimeout(() => {
                         if (this.isListening) {
                             this.stop();
-                            this.showStatus('Stopped after silence');
+                            this.showStatus('Stopped after silence', 'success');
                         }
                     }, 2000);
                 };
@@ -1308,29 +1669,57 @@
                 return converted;
             }
 
+            updateButtonState(state) {
+                if (!this.currentButton) return;
+                
+                // Remove all state classes
+                this.currentButton.classList.remove('idle', 'listening', 'captured', 'error');
+                
+                // Add new state class
+                this.currentButton.classList.add(state);
+                
+                // Update button appearance based on state
+                switch(state) {
+                    case 'idle':
+                        this.currentButton.style.background = '';
+                        this.currentButton.style.color = '';
+                        break;
+                    case 'listening':
+                        // Red background for recording
+                        break;
+                    case 'captured':
+                        // Green background for success
+                        break;
+                    case 'error':
+                        // Orange background for error
+                        break;
+                }
+            }
+
             attachEventListeners() {
                 document.querySelectorAll('.voice-btn').forEach(button => {
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         const fieldId = button.getAttribute('data-field');
-                        this.toggleDictation(fieldId);
+                        this.toggleDictation(fieldId, button);
                     });
                 });
             }
 
-            toggleDictation(fieldId) {
+            toggleDictation(fieldId, button) {
                 if (this.isListening && this.currentField === fieldId) {
                     this.stop();
                 } else {
                     if (this.isListening) {
                         this.stop();
                     }
-                    setTimeout(() => this.start(fieldId), 100);
+                    setTimeout(() => this.start(fieldId, button), 100);
                 }
             }
 
-            start(fieldId) {
+            start(fieldId, button) {
                 this.currentField = fieldId;
+                this.currentButton = button;
                 try {
                     this.recognition.start();
                 } catch (error) {
@@ -1347,27 +1736,18 @@
                 }
             }
 
-            updateUI(state) {
-                const button = document.querySelector(`[data-field="${this.currentField}"]`);
-                if (button) {
-                    if (state === 'listening') {
-                        button.classList.add('recording');
-                    } else {
-                        button.classList.remove('recording');
-                    }
-                }
-            }
-
             showStatus(message, type = 'info') {
                 const statusEl = document.getElementById('voiceStatus');
                 statusEl.textContent = message;
-                statusEl.classList.add('show');
+                statusEl.classList.remove('error', 'success');
                 
                 if (type === 'error') {
-                    statusEl.style.background = '#f44336';
-                } else {
-                    statusEl.style.background = '#333';
+                    statusEl.classList.add('error');
+                } else if (type === 'success') {
+                    statusEl.classList.add('success');
                 }
+                
+                statusEl.classList.add('show');
 
                 setTimeout(() => {
                     statusEl.classList.remove('show');
@@ -1377,7 +1757,6 @@
             disableAllButtons() {
                 document.querySelectorAll('.voice-btn').forEach(button => {
                     button.disabled = true;
-                    button.style.background = '#ccc';
                     button.title = 'Voice dictation not supported in your browser';
                 });
             }
@@ -1475,7 +1854,12 @@
             
             if (showAlert) {
                 if (saved) {
-                    alert('Form saved successfully!');
+                    const status = document.getElementById('voiceStatus');
+                    status.textContent = '✓ Form saved successfully!';
+                    status.classList.add('show', 'success');
+                    setTimeout(() => {
+                        status.classList.remove('show');
+                    }, 3000);
                 } else {
                     alert('Form saved temporarily (will be lost when you close the browser)');
                 }
@@ -1518,7 +1902,13 @@
                 });
                 
                 document.getElementById('lastSaveTime').textContent = 'Not saved yet';
-                alert('All data has been cleared.');
+                
+                const status = document.getElementById('voiceStatus');
+                status.textContent = '✓ All data has been cleared';
+                status.classList.add('show', 'success');
+                setTimeout(() => {
+                    status.classList.remove('show');
+                }, 3000);
             }
         }
 
@@ -1533,18 +1923,18 @@
                     if (data) {
                         const sizeInKB = (new Blob([data]).size / 1024).toFixed(2);
                         statusEl.textContent = `✅ Local storage working (${sizeInKB} KB used)`;
-                        statusEl.style.color = 'green';
+                        statusEl.style.color = 'var(--success)';
                     } else {
                         statusEl.textContent = '✅ Local storage available (no data saved yet)';
-                        statusEl.style.color = 'green';
+                        statusEl.style.color = 'var(--success)';
                     }
                 } catch (e) {
                     statusEl.textContent = '⚠️ Local storage available but restricted';
-                    statusEl.style.color = 'orange';
+                    statusEl.style.color = 'var(--warning)';
                 }
             } else {
                 statusEl.textContent = '❌ Local storage not available (using temporary memory)';
-                statusEl.style.color = 'red';
+                statusEl.style.color = 'var(--danger)';
             }
         }
 
@@ -1684,6 +2074,9 @@
             
             // Update storage status periodically
             setInterval(checkStorageStatus, 30000); // Check every 30 seconds
+            
+            // Add smooth scroll behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
         });
     </script>
 </body>
