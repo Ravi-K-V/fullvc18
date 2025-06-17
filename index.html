@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+.voice-help details[open] summary {
+            color: var(--primary);
+            margin-bottom: 4px;
+        }        @keyframes gentle-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -188,6 +195,11 @@
         .voice-btn:hover:not(:disabled) {
             background: var(--gray-200);
             color: var(--gray-700);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        textarea ~ .voice-btn:hover:not(:disabled) {
+            transform: scale(1.05);
         }
 
         .voice-btn:disabled {
@@ -201,15 +213,22 @@
             color: var(--gray-500);
         }
 
-        .voice-btn.listening {
-            background: var(--danger);
+        .voice-btn.recording {
+            background: var(--success);
             color: white;
             animation: pulse 1.5s infinite;
+        }
+
+        .voice-btn.stopping {
+            background: var(--danger);
+            color: white;
+            animation: none;
         }
 
         .voice-btn.captured {
             background: var(--success);
             color: white;
+            animation: success-flash 0.5s ease-out;
         }
 
         .voice-btn.error {
@@ -218,9 +237,31 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @keyframes success-flash {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes stop-pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes gentle-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .voice-btn.stopping {
+            animation: stop-pulse 0.3s ease-out;
         }
 
         /* Mic Icon */
@@ -228,6 +269,49 @@
             width: 16px;
             height: 16px;
             fill: currentColor;
+        }
+
+        /* Tooltip for voice button - disabled during recording */
+        .voice-btn:not(.recording):not(.stopping)[title]:hover::before {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            background: var(--gray-800);
+            color: white;
+            font-size: 11px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeIn 0.2s ease-out 0.3s forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .voice-btn:not(.recording):not(.stopping)[title]:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 2px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid var(--gray-800);
+            opacity: 0;
+            animation: fadeIn 0.2s ease-out 0.3s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
         /* Status Indicator */
@@ -241,9 +325,9 @@
             display: none;
         }
 
-        .voice-btn.listening .voice-status-indicator {
+        .voice-btn.recording .voice-status-indicator {
             display: block;
-            background: var(--danger);
+            background: var(--success);
             animation: blink 1s infinite;
         }
 
@@ -455,6 +539,10 @@
             background: var(--success);
         }
 
+        .voice-status.info {
+            background: var(--primary);
+        }
+
         /* Auto-save indicator */
         .auto-save-indicator {
             position: fixed;
@@ -489,10 +577,44 @@
             font-weight: 600;
             color: var(--gray-700);
             user-select: none;
+            font-size: 15px;
         }
 
         .voice-help summary:hover {
             color: var(--primary);
+        }
+
+        .voice-state-guide {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .voice-state-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .voice-state-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .voice-state-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
         }
 
         /* Storage Info */
@@ -617,27 +739,85 @@
         <div class="form-content">
             <!-- Voice Dictation Help -->
             <details class="voice-help no-print">
-                <summary>🎤 Voice Dictation Tips for Medical Fields</summary>
-                <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <p style="margin: 8px 0; font-weight: 600;">Say this → Get this:</p>
-                        <ul style="margin: 8px 0 8px 20px; line-height: 1.8;">
-                            <li>"minus two point five" → <strong>-2.5</strong></li>
-                            <li>"plus one point seven five" → <strong>+1.75</strong></li>
-                            <li>"six over six" → <strong>6/6</strong></li>
-                            <li>"twenty over twenty" → <strong>20/20</strong></li>
-                            <li>"at ninety degrees" → <strong>@90°</strong></li>
-                        </ul>
+                <summary>🎤 Voice Dictation Guide</summary>
+                <div style="margin-top: 16px;">
+                    <!-- Mic Button States -->
+                    <div class="voice-state-guide">
+                        <p style="margin: 0 0 16px 0; font-weight: 600; color: var(--gray-700); font-size: 14px;">🎯 Quick Guide: Voice Input</p>
+                        <div class="voice-state-item">
+                            <div class="voice-state-icon" style="background: var(--gray-100);">
+                                <svg style="width: 20px; height: 20px; fill: var(--gray-500);" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong style="color: var(--gray-700); font-size: 13px;">Gray = Ready</strong>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: var(--gray-600);">Click the microphone to start voice input</p>
+                            </div>
+                        </div>
+                        <div class="voice-state-item">
+                            <div class="voice-state-icon" style="background: var(--success); animation: gentle-pulse 1.5s infinite;">
+                                <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                                <div style="position: absolute; width: 8px; height: 8px; background: var(--success); border-radius: 50%; top: -2px; right: -2px; animation: blink 1s infinite;"></div>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong style="color: var(--success); font-size: 13px;">Green = Recording (Active)</strong>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: var(--gray-600);">Speak clearly • Click again to stop • Auto-stops after silence</p>
+                            </div>
+                        </div>
+                        <div class="voice-state-item">
+                            <div class="voice-state-icon" style="background: var(--danger);">
+                                <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong style="color: var(--danger); font-size: 13px;">Red = Stopping</strong>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: var(--gray-600);">Brief flash when recording ends • Processing complete</p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-100);">
+                            <p style="margin: 0; font-size: 11px; color: var(--gray-500); line-height: 1.6;">
+                                💡 <strong>Pro tip:</strong> Text is added to the field after each pause in speech. Continue speaking to add more, or click stop when done.
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <p style="margin: 8px 0; font-weight: 600;">Supported conversions:</p>
-                        <ul style="margin: 8px 0 8px 20px; line-height: 1.8;">
-                            <li>"minus" or "negative" → <strong>-</strong></li>
-                            <li>"plus" or "positive" → <strong>+</strong></li>
-                            <li>"point" → <strong>.</strong> (decimal)</li>
-                            <li>"over" → <strong>/</strong> (fraction)</li>
-                            <li>Number words → digits (e.g., "six" → 6)</li>
-                        </ul>
+                    
+                    <!-- Medical Notation Guide -->
+                    <div style="background: white; border-radius: 8px; padding: 20px; border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm);">
+                        <p style="margin: 0 0 16px 0; font-weight: 600; color: var(--gray-700); font-size: 14px;">🔤 Voice Commands for Medical Fields</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <p style="margin: 0 0 8px 0; font-weight: 500; font-size: 13px; color: var(--gray-600);">Say this → Get this:</p>
+                                <ul style="margin: 0 0 0 16px; line-height: 1.8; font-size: 12px;">
+                                    <li>"minus two point five" → <strong style="color: var(--primary);">-2.5</strong></li>
+                                    <li>"plus one point seven five" → <strong style="color: var(--primary);">+1.75</strong></li>
+                                    <li>"six over six" → <strong style="color: var(--primary);">6/6</strong></li>
+                                    <li>"twenty over twenty" → <strong style="color: var(--primary);">20/20</strong></li>
+                                    <li>"at ninety degrees" → <strong style="color: var(--primary);">@90°</strong></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="margin: 0 0 8px 0; font-weight: 500; font-size: 13px; color: var(--gray-600);">Automatic conversions:</p>
+                                <ul style="margin: 0 0 0 16px; line-height: 1.8; font-size: 12px;">
+                                    <li>"minus" or "negative" → <strong style="color: var(--primary);">-</strong></li>
+                                    <li>"plus" or "positive" → <strong style="color: var(--primary);">+</strong></li>
+                                    <li>"point" → <strong style="color: var(--primary);">.</strong> (decimal)</li>
+                                    <li>"over" → <strong style="color: var(--primary);">/</strong> (fraction)</li>
+                                    <li>Number words → digits (e.g., "six" → <strong style="color: var(--primary);">6</strong>)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px; padding: 12px; background: var(--gray-50); border-radius: 6px;">
+                            <p style="margin: 0; font-size: 11px; color: var(--gray-600); line-height: 1.5;">
+                                <strong>Note:</strong> Medical notation conversion only works in prescription fields (Sph, Cyl, Axis, VA, etc.) and IOP fields.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </details>
@@ -1560,8 +1740,8 @@
 
                 this.recognition.onstart = () => {
                     this.isListening = true;
-                    this.updateButtonState('listening');
-                    this.showStatus('Listening... Speak clearly');
+                    this.updateButtonState('recording');
+                    this.showStatus('🎤 Listening... Speak clearly', 'success');
                 };
 
                 this.recognition.onresult = (event) => {
@@ -1586,9 +1766,9 @@
                             this.updateButtonState('captured');
                             setTimeout(() => {
                                 if (this.isListening) {
-                                    this.updateButtonState('listening');
+                                    this.updateButtonState('recording');
                                 }
-                            }, 1000);
+                            }, 500);
                         }
                     }
                 };
@@ -1596,7 +1776,7 @@
                 this.recognition.onerror = (event) => {
                     console.error('Speech recognition error:', event.error);
                     this.updateButtonState('error');
-                    this.showStatus(`Error: ${event.error}`, 'error');
+                    this.showStatus(`⚠️ Error: ${event.error}`, 'error');
                     setTimeout(() => {
                         this.updateButtonState('idle');
                     }, 2000);
@@ -1605,7 +1785,11 @@
 
                 this.recognition.onend = () => {
                     this.isListening = false;
-                    this.updateButtonState('idle');
+                    // Show stopping state briefly
+                    this.updateButtonState('stopping');
+                    setTimeout(() => {
+                        this.updateButtonState('idle');
+                    }, 300);
                 };
 
                 // Auto-stop after 5 seconds of silence
@@ -1613,7 +1797,7 @@
                     setTimeout(() => {
                         if (this.isListening) {
                             this.stop();
-                            this.showStatus('Stopped after silence', 'success');
+                            this.showStatus('✓ Recording stopped', 'success');
                         }
                     }, 2000);
                 };
@@ -1673,31 +1857,37 @@
                 if (!this.currentButton) return;
                 
                 // Remove all state classes
-                this.currentButton.classList.remove('idle', 'listening', 'captured', 'error');
+                this.currentButton.classList.remove('idle', 'recording', 'captured', 'stopping', 'error', 'listening');
                 
                 // Add new state class
                 this.currentButton.classList.add(state);
                 
-                // Update button appearance based on state
+                // Update button title based on state
                 switch(state) {
                     case 'idle':
-                        this.currentButton.style.background = '';
-                        this.currentButton.style.color = '';
+                        this.currentButton.title = 'Click to start voice input';
                         break;
-                    case 'listening':
-                        // Red background for recording
+                    case 'recording':
+                        this.currentButton.title = 'Recording... Click to stop';
+                        break;
+                    case 'stopping':
+                        this.currentButton.title = 'Stopping...';
                         break;
                     case 'captured':
-                        // Green background for success
+                        this.currentButton.title = 'Text captured!';
                         break;
                     case 'error':
-                        // Orange background for error
+                        this.currentButton.title = 'Error occurred';
                         break;
                 }
             }
 
             attachEventListeners() {
                 document.querySelectorAll('.voice-btn').forEach(button => {
+                    // Ensure all buttons start in idle state
+                    button.classList.add('idle');
+                    button.title = 'Click to start voice input';
+                    
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         const fieldId = button.getAttribute('data-field');
@@ -1708,30 +1898,43 @@
 
             toggleDictation(fieldId, button) {
                 if (this.isListening && this.currentField === fieldId) {
+                    this.showStatus('⏹️ Stopping recording...', 'info');
                     this.stop();
                 } else {
                     if (this.isListening) {
                         this.stop();
                     }
-                    setTimeout(() => this.start(fieldId, button), 100);
+                    setTimeout(() => {
+                        this.showStatus('🟢 Starting voice input...', 'info');
+                        this.start(fieldId, button);
+                    }, 100);
                 }
             }
 
             start(fieldId, button) {
                 this.currentField = fieldId;
                 this.currentButton = button;
+                
+                // Show starting animation
+                this.updateButtonState('idle');
+                
                 try {
                     this.recognition.start();
                 } catch (error) {
                     if (error.name === 'InvalidStateError') {
                         this.recognition.stop();
                         setTimeout(() => this.recognition.start(), 100);
+                    } else {
+                        this.updateButtonState('error');
+                        this.showStatus('⚠️ Could not start recording', 'error');
                     }
                 }
             }
 
             stop() {
                 if (this.recognition && this.isListening) {
+                    // Show stopping state immediately
+                    this.updateButtonState('stopping');
                     this.recognition.stop();
                 }
             }
@@ -1739,12 +1942,14 @@
             showStatus(message, type = 'info') {
                 const statusEl = document.getElementById('voiceStatus');
                 statusEl.textContent = message;
-                statusEl.classList.remove('error', 'success');
+                statusEl.classList.remove('error', 'success', 'info');
                 
                 if (type === 'error') {
                     statusEl.classList.add('error');
                 } else if (type === 'success') {
                     statusEl.classList.add('success');
+                } else {
+                    statusEl.classList.add('info');
                 }
                 
                 statusEl.classList.add('show');
